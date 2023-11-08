@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const express = require("express");
 const dotenv = require("dotenv");
 const mysql = require("mysql");
-const db = require("./api/db/db_connect");
+const db = require("./api/db/dbConnect");
 const app = express();
 
 const port = 3000;
