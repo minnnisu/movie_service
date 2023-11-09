@@ -11,6 +11,7 @@ const SQLiteStore = require("connect-sqlite3")(session);
 const passport = require("passport");
 const passportConfig = require("./api/passport");
 const authRouter = require("./api/routes/authRouter");
+const userRouter = require("./api/routes/userRouter");
 
 const app = express();
 const port = 8080;
@@ -44,6 +45,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
