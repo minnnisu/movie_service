@@ -11,7 +11,6 @@ const SQLiteStore = require("connect-sqlite3")(session);
 const passport = require("passport");
 const passportConfig = require("./api/passport");
 const authRouter = require("./api/routes/authRouter");
-const pool = require("./db/dbConnect");
 
 const app = express();
 const port = 8080;

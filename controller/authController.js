@@ -2,52 +2,52 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const pool = require("../db/dbConnect");
 const createError = require("http-errors");
+const dbController = require("./dbController");
 
-// exports.localLogin = function (req, res, next) {
-//   passport.authenticate("local", function (err, user, info) {
-//     // new LocalStrategy(async function verify(username, password, cb){...}) 이후 작업
-//     if (err) {
-//       return next(err);
-//     }
+exports.localLogin = function (req, res, next) {
+  passport.authenticate("local", function (err, user, userError) {
+    // new LocalStrategy(async function verify(username, password, cb){...}) 이후 작업
+    if (err) {
+      console.error(err);
+      return next(createError(500, "login_error"));
+    }
 
-//     if (!user) {
-//       return next(new ValidationError(info.message));
-//     }
+    if (!user) {
+      return next(userError);
+    }
 
-//     // user정보 session storage에 저장
-//     return req.login(user, (err) => {
-//       if (err) {
-//         console.error(err);
-//         return next(err);
-//       }
+    // user정보 session storage에 저장
+    return req.login(user, (err) => {
+      if (err) {
+        console.error(err);
+        return next(createError(500, "login_error"));
+      }
 
-//       return res.status(200).send("로그인에 성공하였습니다.");
-//     });
-//   })(req, res, next);
-// };
+      res.status(201).json({ message: "sucessfully login" });
+    });
+  })(req, res, next);
+};
 
-// exports.logout = function (req, res, next) {
-//   req.logout(function (err) {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.status(200).send("로그아웃에 성공하였습니다.");
-//   });
-// };
+exports.logout = function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(createError(500, "logout_error"));
+    }
+    res.status(201).send("sucessfully logout");
+  });
+};
 
 async function checkIdDuplication(id) {
-  const connection = await pool.getConnection();
-  const [user = rows] = await connection.query(
-    "SELECT id FROM users WHERE id = ?",
-    [id]
-  );
-  connection.release();
+  try {
+    const user = await dbController.getUser(id);
+    if (user.length > 0) {
+      return true;
+    }
 
-  if (user.length > 0) {
-    return true;
+    return false;
+  } catch (error) {
+    throw error;
   }
-
-  return false;
 }
 
 function checkPatterndValid(patternCheckList) {
@@ -73,6 +73,7 @@ exports.signup = async function (req, res, next) {
       return next(createError(409, "id_duplication_error"));
     }
   } catch (error) {
+    console.error(error);
     next(createError(500, "database_error"));
   }
 
@@ -114,10 +115,10 @@ exports.signup = async function (req, res, next) {
     );
 
     await connection.commit();
-    res.status(201).json({ message: "회원가입에 성공하였습니다." });
+    res.status(201).json({ message: "sucessfully signup" });
   } catch (err) {
     await connection.rollback();
-    console.log(err);
+    console.error(err);
     next(createError(500, "database_error"));
   } finally {
     connection.release();
