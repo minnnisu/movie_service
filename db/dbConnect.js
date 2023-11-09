@@ -1,15 +1,17 @@
-const mysql = require("mysql2");
-const dotenv = require("dotenv");
+require("dotenv").config();
+const mysql = require("mysql2/promise");
 
-dotenv.config();
+const host = process.env.DB_HOST;
+const user = process.env.DB_USER;
+const password = process.env.DB_PW;
+const database = process.env.DB_DATABASE;
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: "movie_service",
+  host,
+  user,
+  password,
+  database,
+  connectionLimit: 5,
 });
 
-const promisePool = pool.promise();
-
-module.exports = promisePool;
+module.exports = pool;
