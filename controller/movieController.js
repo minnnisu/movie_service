@@ -20,7 +20,6 @@ exports.getMovie = async function (req, res, next) {
   const connection = await pool.getConnection();
 
   try {
-    console.log(sql);
     const [rows] = await connection.query(sql, params);
     res.status(200).json(rows);
   } catch (err) {
