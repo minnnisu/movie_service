@@ -124,3 +124,16 @@ exports.signup = async function (req, res, next) {
     connection.release();
   }
 };
+
+exports.checkId = async function (req, res, next) {
+  try {
+    if (await checkIdDuplication(req.body.id)) {
+      console.log("중복");
+      return next(createError(409, "id_duplication_error"));
+    }
+
+    return res.status(200).json({ message: "this ID is valid" });
+  } catch (error) {
+    return next(createError(500, "database_error"));
+  }
+};

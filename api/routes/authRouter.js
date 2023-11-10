@@ -13,4 +13,10 @@ router.post("/signup", authMiddleware.isLogoutStatus, authController.signup);
 
 router.post("/logout", authMiddleware.isLoginStatus, authController.logout);
 
+router.post(
+  "/local/id/check",
+  authMiddleware.isLogoutStatus,
+  authController.checkId
+);
+
 module.exports = router;
