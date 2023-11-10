@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const path = require("path");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -19,6 +20,8 @@ const app = express();
 const port = 8080;
 
 dotenv.config();
+app.set("view engine", "ejs");
+app.use("/", express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,7 +56,13 @@ app.use("/api/movie", movieRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(err.status).send({ message: err.message });
+  if (err.isShowErrPage === true) {
+    return res.render("error.ejs", {
+      err_code: err.status,
+      err_message: err.message,
+    });
+  }
+  return res.status(err.status).send({ message: err.message });
 });
 
 app.listen(port, () => {
