@@ -128,7 +128,6 @@ exports.signup = async function (req, res, next) {
 exports.checkId = async function (req, res, next) {
   try {
     if (await checkIdDuplication(req.body.id)) {
-      console.log("중복");
       return next(createError(409, "id_duplication_error"));
     }
 

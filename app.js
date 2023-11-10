@@ -12,6 +12,8 @@ const passport = require("passport");
 const passportConfig = require("./api/passport");
 const authRouter = require("./api/routes/authRouter");
 const userRouter = require("./api/routes/userRouter");
+const movieRouter = require("./api/routes/movieRouter");
+const pageRouter = require("./api/routes/pageRouter");
 
 const app = express();
 const port = 8080;
@@ -44,8 +46,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use("/", pageRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/movie", movieRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
