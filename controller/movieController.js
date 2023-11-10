@@ -9,7 +9,7 @@ exports.getMovie = async function (req, res, next) {
   let params = [];
 
   if (req.query.summary) {
-    sql = "SELECT title, summary, running_time FROM movies";
+    sql = "SELECT poster_image, title, summary, running_time FROM movies";
   }
 
   if (req.query.query) {
