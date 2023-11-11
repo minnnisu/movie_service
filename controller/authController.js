@@ -5,6 +5,10 @@ const createError = require("http-errors");
 const dbController = require("./dbController");
 
 exports.localLogin = function (req, res, next) {
+  if (!req.body.username || !req.body.password) {
+    return next(createError(400, "not_contain_nessary_body"));
+  }
+
   passport.authenticate("local", function (err, user, userError) {
     // new LocalStrategy(async function verify(username, password, cb){...}) 이후 작업
     if (err) {
@@ -23,7 +27,7 @@ exports.localLogin = function (req, res, next) {
         return next(createError(500, "login_error"));
       }
 
-      res.status(201).json({ message: "sucessfully login" });
+      res.redirect("/");
     });
   })(req, res, next);
 };
@@ -33,7 +37,7 @@ exports.logout = function (req, res, next) {
     if (err) {
       return next(createError(500, "logout_error"));
     }
-    res.status(201).send("sucessfully logout");
+    res.redirect("/");
   });
 };
 
@@ -67,6 +71,10 @@ function checkPatterndValid(patternCheckList) {
 
 exports.signup = async function (req, res, next) {
   const { id, password, checkedPassword, name, email, telephone } = req.body;
+
+  if (!id || !password || !checkedPassword || !name || !email || !telephone) {
+    return next(createError(400, "not_contain_nessary_body"));
+  }
 
   try {
     if (await checkIdDuplication(id)) {
@@ -115,7 +123,8 @@ exports.signup = async function (req, res, next) {
     );
 
     await connection.commit();
-    res.status(201).json({ message: "sucessfully signup" });
+    // res.status(201).json({ message: "sucessfully signup" });
+    res.redirect("/");
   } catch (err) {
     await connection.rollback();
     console.error(err);
@@ -126,6 +135,10 @@ exports.signup = async function (req, res, next) {
 };
 
 exports.checkId = async function (req, res, next) {
+  if (!req.body.id) {
+    return next(createError(400, "not_contain_nessary_body"));
+  }
+
   try {
     if (await checkIdDuplication(req.body.id)) {
       return next(createError(409, "id_duplication_error"));
