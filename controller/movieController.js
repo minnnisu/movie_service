@@ -32,35 +32,45 @@ function getToday_Y_M_D() {
   return formattedDate;
 }
 
-function filterMoviesSchedule(moviesSchedule) {
-  let currentMovieTitle = moviesSchedule[0]["title"];
-  let currentMovieSchedule = { title: currentMovieTitle, scheduleList: [] };
-  const filterdMoviesSchedule = [];
-  moviesSchedule.map((movieSchedule) => {
-    if (currentMovieTitle !== movieSchedule["title"]) {
-      currentMovieTitle = movieSchedule["title"];
-      filterdMoviesSchedule.push(currentMovieSchedule);
-      currentMovieSchedule = { title: currentMovieTitle, scheduleList: [] };
+function GroupMoviesSchedule(moviesSchedule) {
+  const groupedMovie = [];
+
+  moviesSchedule.forEach((movie) => {
+    const { title, room_id, start_time, end_time, ordered_seat_count } = movie;
+
+    // title을 찾기
+    let movieInfo = groupedMovie.find((item) => item.title === title);
+
+    // title이 없다면 새로운 객체 추가
+    if (!movieInfo) {
+      movieInfo = {
+        title,
+        rooms: [],
+      };
+      groupedMovie.push(movieInfo);
     }
 
-    const { room_id, start_time, end_time, ordered_seat_count } = movieSchedule;
-    currentMovieSchedule["scheduleList"].push({
-      room_id,
+    // room_id를 찾기
+    let roomInfo = movieInfo.rooms.find((room) => room.room_id === room_id);
+
+    // room_id가 없다면 새로운 객체 추가
+    if (!roomInfo) {
+      roomInfo = {
+        room_id,
+        schedules: [],
+      };
+      movieInfo.rooms.push(roomInfo);
+    }
+
+    // 해당 정보 추가
+    roomInfo.schedules.push({
       start_time,
       end_time,
       ordered_seat_count,
     });
   });
 
-  filterdMoviesSchedule.map((MovieSchedule) => {
-    console.log(MovieSchedule["title"]);
-    MovieSchedule["scheduleList"].map((schedule) => {
-      const { room_id, start_time, end_time, ordered_seat_count } = schedule;
-      console.log(room_id, start_time, end_time, ordered_seat_count);
-    });
-  });
-
-  return filterdMoviesSchedule;
+  return groupedMovie;
 }
 
 exports.getMovieOrderPage = async function (req, res, next) {
@@ -77,9 +87,9 @@ exports.getMovieOrderPage = async function (req, res, next) {
       [`${date} 00:00`, `${date} 23:59`]
     );
 
-    const filterdMoviesSchedule = filterMoviesSchedule(todayMoviesSchedule);
+    const groupedMovieSchedule = GroupMoviesSchedule(todayMoviesSchedule);
 
-    res.status(200).json({ todayMoviesSchedule: filterdMoviesSchedule });
+    res.render("ticketing", { todayMoviesSchedule: groupedMovieSchedule });
   } catch (err) {
     console.log(err);
     next(createError(500, "database_error", { isShowErrPage: true }));
