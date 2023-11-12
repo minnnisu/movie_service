@@ -50,9 +50,9 @@ app.use(function (req, res, next) {
 });
 
 app.use("/", mainRouter);
+app.use("/movie", movieRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/movie", movieRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

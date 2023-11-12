@@ -9,7 +9,6 @@ exports.getMainPage = async function (req, res, next) {
     const [rows] = await connection.query(
       `SELECT poster_image, title, running_time, age_limit FROM movies`
     );
-    console.log({ movies: rows });
     res.render("main.ejs", { movies: rows });
   } catch (err) {
     console.log(err);

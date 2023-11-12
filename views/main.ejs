@@ -13,7 +13,9 @@
       <div>
         <img src="<%= movies[i].poster_image %>" width="200" alt="포스터" />
         <div>
-          <a href="http://localhost:8080/movie/<%= movies[i].title %>">
+          <a
+            href="http://localhost:8080/movie/movieDetail/<%= movies[i].title %>"
+          >
             <%= movies[i].title %>
           </a>
         </div>
