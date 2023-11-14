@@ -1,8 +1,7 @@
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const pool = require("../db/dbConnect");
 const createError = require("http-errors");
-const dbController = require("./dbController");
+const userModel = require("../model/userModel");
 
 exports.localLogin = function (req, res, next) {
   if (!req.body.username || !req.body.password) {
@@ -41,19 +40,6 @@ exports.logout = function (req, res, next) {
   });
 };
 
-async function checkIdDuplication(id) {
-  try {
-    const user = await dbController.getUser(id);
-    if (user.length > 0) {
-      return true;
-    }
-
-    return false;
-  } catch (error) {
-    throw error;
-  }
-}
-
 function checkPatterndValid(patternCheckList) {
   for (let index = 0; index < patternCheckList.length; index++) {
     const patternCheckItem = patternCheckList[index];
@@ -77,7 +63,7 @@ exports.signup = async function (req, res, next) {
   }
 
   try {
-    if (await checkIdDuplication(id)) {
+    if (await userModel.checkIdDuplication(id)) {
       return next(createError(409, "id_duplication_error"));
     }
   } catch (error) {
@@ -113,24 +99,12 @@ exports.signup = async function (req, res, next) {
 
   const hashedPassword = await bcrypt.hash(req.body.password, 12); //hash(패스워드, salt횟수)
 
-  const connection = await pool.getConnection();
   try {
-    await connection.beginTransaction();
-
-    await connection.query(
-      "INSERT INTO users(id, password, name, email, telephone) VALUES(?, ?, ?, ?, ?);",
-      [id, hashedPassword, name, email, telephone]
-    );
-
-    await connection.commit();
-    // res.status(201).json({ message: "sucessfully signup" });
+    await userModel.addNewUser({ id, hashedPassword, name, email, telephone });
     res.redirect("/");
   } catch (err) {
-    await connection.rollback();
     console.error(err);
     next(createError(500, "database_error"));
-  } finally {
-    connection.release();
   }
 };
 

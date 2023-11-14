@@ -1,20 +1,18 @@
-const pool = require("../db/dbConnect");
 const createError = require("http-errors");
+const movieScheduleModel = require("../model/movieScheduleModel");
+const movieModel = require("../model/movieModel");
 
 exports.getMovieInfoPage = async function (req, res, next) {
-  const connection = await pool.getConnection();
+  if (!req.params.title) {
+    return next(createError(404, "not_found_page", { isShowErrPage: true }));
+  }
 
   try {
-    const [rows] = await connection.query(
-      `SELECT poster_image, title, summary, running_time, age_limit, DATE_FORMAT(released_date, '%Y-%m-%d') AS released_date FROM movies WHERE title = ?`,
-      [req.params.title]
-    );
-    res.render("movie_info.ejs", { movies: rows });
+    const movie = await movieModel.getMovieInfo(req.params.title);
+    res.render("movie_info.ejs", { movie });
   } catch (err) {
     console.log(err);
     next(createError(500, "database_error", { isShowErrPage: true }));
-  } finally {
-    connection.release();
   }
 };
 
@@ -32,7 +30,7 @@ function getToday_Y_M_D() {
   return formattedDate;
 }
 
-function GroupMoviesSchedule(moviesSchedule) {
+function groupMoviesSchedule(moviesSchedule) {
   const groupedMovie = [];
 
   moviesSchedule.forEach((movie) => {
@@ -74,26 +72,16 @@ function GroupMoviesSchedule(moviesSchedule) {
 }
 
 exports.getMovieOrderPage = async function (req, res, next) {
-  const connection = await pool.getConnection();
-
   let date = getToday_Y_M_D();
   if (req.query.date) date = req.query.date;
 
   try {
-    const [todayMoviesSchedule = rows] = await connection.query(
-      `SELECT title, room_id, DATE_FORMAT(start_time, '%Y-%m-%d %H:%i') AS start_time, 
-        DATE_FORMAT(end_time, '%Y-%m-%d %H:%i') AS end_time, 
-        ordered_seat_count FROM movieSchedule WHERE start_time BETWEEN ? AND ? ORDER BY title, room_id, start_time;`,
-      [`${date} 00:00`, `${date} 23:59`]
-    );
+    const moviesSchedule = await movieScheduleModel.getMovieSchedule(date);
+    const groupedMovieSchedule = groupMoviesSchedule(moviesSchedule);
 
-    const groupedMovieSchedule = GroupMoviesSchedule(todayMoviesSchedule);
-
-    res.render("ticketing", { todayMoviesSchedule: groupedMovieSchedule });
+    res.render("ticketing", { moviesSchedule: groupedMovieSchedule });
   } catch (err) {
     console.log(err);
     next(createError(500, "database_error", { isShowErrPage: true }));
-  } finally {
-    connection.release();
   }
 };
