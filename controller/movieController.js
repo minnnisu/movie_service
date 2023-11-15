@@ -34,7 +34,14 @@ function groupMoviesSchedule(moviesSchedule) {
   const groupedMovie = [];
 
   moviesSchedule.forEach((movie) => {
-    const { title, room_id, start_time, end_time, ordered_seat_count } = movie;
+    const {
+      movie_time_id,
+      title,
+      room_id,
+      start_time,
+      end_time,
+      ordered_seat_count,
+    } = movie;
 
     // title을 찾기
     let movieInfo = groupedMovie.find((item) => item.title === title);
@@ -62,6 +69,7 @@ function groupMoviesSchedule(moviesSchedule) {
 
     // 해당 정보 추가
     roomInfo.schedules.push({
+      movie_time_id,
       start_time,
       end_time,
       ordered_seat_count,
@@ -78,10 +86,33 @@ exports.getMovieOrderPage = async function (req, res, next) {
   try {
     const moviesSchedule = await movieScheduleModel.getMovieSchedule(date);
     const groupedMovieSchedule = groupMoviesSchedule(moviesSchedule);
+    console.log(groupedMovieSchedule);
 
     res.render("ticketing", { moviesSchedule: groupedMovieSchedule });
   } catch (err) {
     console.log(err);
     next(createError(500, "database_error", { isShowErrPage: true }));
+  }
+};
+
+exports.getMovieOrderPage = async function (req, res, next) {
+  let date = getToday_Y_M_D();
+  if (req.query.date) date = req.query.date;
+
+  try {
+    const moviesSchedule = await movieScheduleModel.getDateMovieSchedule(date);
+    const groupedMovieSchedule = groupMoviesSchedule(moviesSchedule);
+    console.log(groupedMovieSchedule);
+
+    res.render("ticketing", { moviesSchedule: groupedMovieSchedule });
+  } catch (err) {
+    console.log(err);
+    next(createError(500, "database_error", { isShowErrPage: true }));
+  }
+};
+
+exports.orderMovie = async function (req, res, next) {
+  if (!req.body.timeId) {
+    return next(createError(404, "not_found_page", { isShowErrPage: true }));
   }
 };

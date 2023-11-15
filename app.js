@@ -13,6 +13,7 @@ const passport = require("passport");
 const passportConfig = require("./api/passport");
 const authRouter = require("./api/routes/authRouter");
 const userRouter = require("./api/routes/userRouter");
+const paymentRouter = require("./api/routes/paymentRouter");
 const movieRouter = require("./api/routes/movieRouter");
 const mainRouter = require("./api/routes/mainRouter");
 
@@ -53,6 +54,7 @@ app.use("/", mainRouter);
 app.use("/movie", movieRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/payment", paymentRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

@@ -16,6 +16,7 @@
       <% movieSchedule.rooms.forEach(room => { %>
         <div>상영관:  <%= room.room_id %></div>
           <% room.schedules.forEach(schedule => { %>
+            <div>movie_time_id: <%= schedule.movie_time_id %></div>
             <div>시작시간: <%= schedule.start_time %></div>
             <div>종료시간: <%= schedule.end_time %></div>
             <div>좌석: <%= schedule.ordered_seat_count %> / 100</div>

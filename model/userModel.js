@@ -32,10 +32,12 @@ exports.addNewUser = async function (userInfo) {
   try {
     await connection.beginTransaction();
 
-    await connection.query(
+    const [rows] = await connection.query(
       "INSERT INTO users(id, password, name, email, telephone) VALUES(?, ?, ?, ?, ?);",
       [id, hashedPassword, name, email, telephone]
     );
+
+    console.log(rows);
 
     await connection.commit();
   } catch (err) {
