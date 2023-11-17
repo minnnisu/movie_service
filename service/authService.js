@@ -19,12 +19,12 @@ function checkPatterndValid(patternCheckList) {
 
 exports.signup = async function (body) {
   if (
-    !body.id === undefined ||
-    !body.password === undefined ||
-    !body.checkedPassword === undefined ||
-    !body.name === undefined ||
-    !body.email === undefined ||
-    !body.telephone === undefined
+    body.id === undefined ||
+    body.password === undefined ||
+    body.checkedPassword === undefined ||
+    body.name === undefined ||
+    body.email === undefined ||
+    body.telephone === undefined
   ) {
     throw createError(400, "not_contain_nessary_body");
   }
@@ -76,7 +76,7 @@ exports.signup = async function (body) {
 };
 
 exports.checkId = async function (id) {
-  if (!id === undefined) {
+  if (id === undefined) {
     throw createError(400, "not_contain_nessary_body");
   }
 
