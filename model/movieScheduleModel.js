@@ -28,7 +28,6 @@ exports.getMovieSchedule = async function (movieTimeId) {
       `SELECT * FROM movieSchedule WHERE movie_time_id = ?`,
       [movieTimeId]
     );
-
     return rows;
   } catch (err) {
     throw err;

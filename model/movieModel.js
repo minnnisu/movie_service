@@ -15,7 +15,7 @@ exports.getMoviesSummary = async function () {
   }
 };
 
-exports.getMovieInfo = async function (title) {
+exports.getMovieByTitle = async function (title) {
   const connection = await pool.getConnection();
   try {
     const [rows] = await connection.query(
