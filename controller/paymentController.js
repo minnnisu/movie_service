@@ -26,7 +26,6 @@ exports.getPaymentCompletePage = async function (req, res, next) {
     req.session.paymentComplete = false;
     return res.status(201).json({ orderInfo });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };

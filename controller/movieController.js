@@ -7,7 +7,7 @@ exports.getMovieInfoPage = async function (req, res, next) {
     res.render("movie_info.ejs", { movie });
   } catch (err) {
     console.error(err);
-    next(new HttpError(500, "database_error", { isShowErrPage: true }));
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };
 
@@ -19,6 +19,6 @@ exports.getMovieTicketingPage = async function (req, res, next) {
     res.render("ticketing", { moviesSchedule });
   } catch (err) {
     console.error(err);
-    next(new HttpError(500, "database_error", { isShowErrPage: true }));
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };

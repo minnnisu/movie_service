@@ -8,10 +8,6 @@ exports.getMoviesSummary = async function () {
 };
 
 exports.getMovieByTitle = async function (title) {
-  if (title === undefined) {
-    throw new HttpError(404, "not_found_page", { isShowErrPage: true });
-  }
-
   return await movieModel.getMovieByTitle(title);
 };
 
