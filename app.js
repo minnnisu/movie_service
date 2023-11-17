@@ -16,6 +16,8 @@ const userRouter = require("./api/routes/userRouter");
 const paymentRouter = require("./api/routes/paymentRouter");
 const movieRouter = require("./api/routes/movieRouter");
 const mainRouter = require("./api/routes/mainRouter");
+const paymentCompleteRouter = require("./api/routes/paymentCompleteRouter");
+const HttpError = require("./error/HttpError");
 
 const app = express();
 const port = 8080;
@@ -55,16 +57,23 @@ app.use("/movie", movieRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/payment/complete", paymentCompleteRouter);
+
+paymentCompleteRouter;
 
 app.use((err, req, res, next) => {
-  console.error(err);
-  if (err.isShowErrPage === true) {
-    return res.render("error.ejs", {
-      err_code: err.status,
-      err_message: err.message,
-    });
+  console.log(err);
+  if (err instanceof HttpError) {
+    if (err.option?.isShowErrPage === true) {
+      return res.render("error.ejs", {
+        err_code: err.status,
+        err_message: err.message,
+      });
+    }
+    return res.status(err.status).json({ message: err.message });
   }
-  return res.status(err.status).send({ message: err.message });
+
+  return res.status(500).json({ message: "server_error" });
 });
 
 app.listen(port, () => {

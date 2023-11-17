@@ -1,6 +1,6 @@
 const userModel = require("../model/userModel");
-const createError = require("http-errors");
 const bcrypt = require("bcrypt");
+const HttpError = require("../error/HttpError");
 
 function checkPatterndValid(patternCheckList) {
   for (let index = 0; index < patternCheckList.length; index++) {
@@ -26,18 +26,13 @@ exports.signup = async function (body) {
     body.email === undefined ||
     body.telephone === undefined
   ) {
-    throw createError(400, "not_contain_nessary_body");
+    throw new HttpError(400, "not_contain_nessary_body");
   }
 
   const { id, password, checkedPassword, name, email, telephone } = body;
 
-  try {
-    if (await userModel.checkIdDuplication(id))
-      throw createError(409, "id_duplication_error");
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  if (await userModel.checkIdDuplication(id))
+    throw new HttpError(409, "id_duplication_error");
 
   const patternCheckList = [
     {
@@ -58,29 +53,24 @@ exports.signup = async function (body) {
   ];
   const { isValid, message } = checkPatterndValid(patternCheckList);
   if (!isValid) {
-    throw createError(422, message);
+    throw new HttpError(422, message);
   }
 
   if (password !== checkedPassword) {
-    throw createError(422, "pw_consistency_error");
+    throw new HttpError(422, "pw_consistency_error");
   }
 
   const hashedPassword = await bcrypt.hash(password, 12); //hash(패스워드, salt횟수)
 
-  try {
-    await userModel.addNewUser({ id, hashedPassword, name, email, telephone });
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  await userModel.addNewUser({ id, hashedPassword, name, email, telephone });
 };
 
 exports.checkId = async function (id) {
   if (id === undefined) {
-    throw createError(400, "not_contain_nessary_body");
+    throw new HttpError(400, "not_contain_nessary_body");
   }
 
   if (await userModel.checkIdDuplication(id)) {
-    throw createError(409, "id_duplication_error");
+    throw new HttpError(409, "id_duplication_error");
   }
 };
