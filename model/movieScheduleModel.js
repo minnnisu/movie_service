@@ -21,7 +21,7 @@ exports.getMovieScheduleByDate = async function (date) {
   }
 };
 
-exports.getMovieSchedule = async function (movieTimeId) {
+exports.getMovieScheduleByMovieTimeId = async function (movieTimeId) {
   const connection = await pool.getConnection();
   try {
     const [rows] = await connection.query(

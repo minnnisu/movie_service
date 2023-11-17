@@ -54,10 +54,10 @@ app.use(function (req, res, next) {
 
 app.use("/", mainRouter);
 app.use("/movie", movieRouter);
+app.use("/payment/complete", paymentCompleteRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/payment", paymentRouter);
-app.use("/payment/complete", paymentCompleteRouter);
 
 paymentCompleteRouter;
 

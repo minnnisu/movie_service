@@ -38,6 +38,8 @@ exports.addNewOrder = async function ({
     );
 
     await connection.commit();
+
+    return orderId;
   } catch (err) {
     await connection.rollback();
     throw err;
