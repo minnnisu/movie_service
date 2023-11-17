@@ -1,6 +1,6 @@
 const pool = require("./index");
 
-exports.getDateMovieSchedule = async function (date) {
+exports.getMovieScheduleByDate = async function (date) {
   const connection = await pool.getConnection();
   try {
     const [rows] = await connection.query(

@@ -11,9 +11,11 @@ exports.getMovieInfoPage = async function (req, res, next) {
   }
 };
 
-exports.getMovieOrderPage = async function (req, res, next) {
+exports.getMovieTicketingPage = async function (req, res, next) {
   try {
-    const moviesSchedule = await movieService.getMovieOrderPage(req.query.date);
+    const moviesSchedule = await movieService.getMovieScheduleByDate(
+      req.query.date
+    );
     res.render("ticketing", { moviesSchedule });
   } catch (err) {
     console.error(err);

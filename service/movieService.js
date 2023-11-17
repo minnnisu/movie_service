@@ -78,9 +78,9 @@ function groupMoviesSchedule(moviesSchedule) {
   return groupedMovie;
 }
 
-exports.getMovieOrderPage = async function (date) {
+exports.getMovieScheduleByDate = async function (date) {
   if (date === undefined) date = getToday_Y_M_D();
-  const moviesSchedule = await movieScheduleModel.getDateMovieSchedule(date);
+  const moviesSchedule = await movieScheduleModel.getMovieScheduleByDate(date);
   const groupedMovieSchedule = groupMoviesSchedule(moviesSchedule);
   return groupedMovieSchedule;
 };
