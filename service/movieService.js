@@ -1,6 +1,7 @@
 require("dotenv").config();
 const movieModel = require("../model/movieModel");
 const movieScheduleModel = require("../model/movieScheduleModel");
+const orderedSeatModel = require("../model/orderedSeatModel");
 const HttpError = require("../error/HttpError");
 
 exports.getMoviesSummary = async function () {
@@ -79,4 +80,16 @@ exports.getMovieScheduleByDate = async function (date) {
   const moviesSchedule = await movieScheduleModel.getMovieScheduleByDate(date);
   const groupedMovieSchedule = groupMoviesSchedule(moviesSchedule);
   return groupedMovieSchedule;
+};
+
+exports.getMoviePersonSeatByMovieTimeId = async function (movie_time_id) {
+  if (movie_time_id === undefined) {
+    throw new HttpError(404, "not_contain_nessary_query", {
+      isShowErrPage: true,
+    });
+  }
+  const seats = await orderedSeatModel.getOrderedSeatsByMovieTime(
+    movie_time_id
+  );
+  return seats;
 };

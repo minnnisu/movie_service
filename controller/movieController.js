@@ -22,3 +22,15 @@ exports.getMovieTicketingPage = async function (req, res, next) {
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };
+
+exports.getMoviePersonSeatPage = async function (req, res, next) {
+  try {
+    const seats = await movieService.getMoviePersonSeatByMovieTimeId(
+      req.query.movie_time_id
+    );
+    return res.status(200).json({ seats });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
