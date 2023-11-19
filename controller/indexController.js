@@ -1,10 +1,10 @@
-const movieService = require("../service/movieService");
+const indexService = require("../service/indexService");
 const HttpError = require("../error/HttpError");
 
 exports.getMainPage = async function (req, res, next) {
   try {
-    const movies = await movieService.getMoviesSummary();
-    res.render("main.ejs", { movies });
+    const reponseDate = await indexService.getMainPage(req.user);
+    res.render("index", { ...reponseDate });
   } catch (err) {
     console.error(err);
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));

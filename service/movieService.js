@@ -4,10 +4,6 @@ const movieScheduleModel = require("../model/movieScheduleModel");
 const orderedSeatModel = require("../model/orderedSeatModel");
 const HttpError = require("../error/HttpError");
 
-exports.getMoviesSummary = async function () {
-  return await movieModel.getMoviesSummary();
-};
-
 exports.getMovieByTitle = async function (title) {
   return await movieModel.getMovieByTitle(title);
 };
