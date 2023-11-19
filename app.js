@@ -11,12 +11,13 @@ const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 const passport = require("passport");
 const passportConfig = require("./api/passport");
-const authRouter = require("./api/routes/authRouter");
-const userRouter = require("./api/routes/userRouter");
-const paymentRouter = require("./api/routes/paymentRouter");
-const movieRouter = require("./api/routes/movieRouter");
-const indexRouter = require("./api/routes/indexRouter");
-const paymentCompleteRouter = require("./api/routes/paymentCompleteRouter");
+
+const authApiRouter = require("./api/routes/apis/authRouter");
+const userPageRouter = require("./api/routes/pages/userRouter");
+const paymentApiRouter = require("./api/routes/apis/paymentRouter");
+const moviePageRouter = require("./api/routes/pages/movieRouter");
+const indexPageRouter = require("./api/routes/pages/indexRouter");
+const paymentPageRouter = require("./api/routes/pages/paymentRouter");
 const HttpError = require("./error/HttpError");
 
 const app = express();
@@ -52,14 +53,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/", indexRouter);
-app.use("/movie", movieRouter);
-app.use("/payment/complete", paymentCompleteRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
-app.use("/api/payment", paymentRouter);
-
-paymentCompleteRouter;
+app.use("/", indexPageRouter);
+app.use("/user", userPageRouter);
+app.use("/movie", moviePageRouter);
+app.use("/payment", paymentPageRouter);
+app.use("/api/auth", authApiRouter);
+app.use("/api/payment", paymentApiRouter);
 
 app.use((err, req, res, next) => {
   console.log(err);

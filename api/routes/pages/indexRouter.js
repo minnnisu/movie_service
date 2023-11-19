@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const indexController = require("../../controller/indexController");
-const authMiddleware = require("../../api/middleware/authMiddleware");
+const indexController = require("../../../controller/indexController");
+const authMiddleware = require("../../middleware/authMiddleware");
 
 router.get("/", indexController.getMainPage);
 

@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../../api/middleware/authMiddleware");
-const paymentController = require("../../controller/paymentController");
+const authMiddleware = require("../../middleware/authMiddleware");
+const paymentController = require("../../../controller/paymentController");
 
 router.get(
-  "/",
+  "/complete",
   authMiddleware.isLoginStatus,
   paymentController.getPaymentCompletePage
 );
