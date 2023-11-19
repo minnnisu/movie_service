@@ -15,7 +15,7 @@ const authRouter = require("./api/routes/authRouter");
 const userRouter = require("./api/routes/userRouter");
 const paymentRouter = require("./api/routes/paymentRouter");
 const movieRouter = require("./api/routes/movieRouter");
-const mainRouter = require("./api/routes/mainRouter");
+const indexRouter = require("./api/routes/indexRouter");
 const paymentCompleteRouter = require("./api/routes/paymentCompleteRouter");
 const HttpError = require("./error/HttpError");
 
@@ -52,7 +52,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/", mainRouter);
+app.use("/", indexRouter);
 app.use("/movie", movieRouter);
 app.use("/payment/complete", paymentCompleteRouter);
 app.use("/api/auth", authRouter);

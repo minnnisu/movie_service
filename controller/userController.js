@@ -8,3 +8,12 @@ exports.getUser = async function (req, res, next) {
     return next(error);
   }
 };
+
+exports.getOrderedList = async function (req, res, next) {
+  try {
+    const user = await userService.getUser(req.user);
+    return res.status(200).json(user);
+  } catch (error) {
+    return next(error);
+  }
+};
