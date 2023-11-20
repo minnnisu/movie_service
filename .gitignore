@@ -1,4 +1,5 @@
 /node_modules
 /session
-.env
 /db/testInsert.js
+.env
+.DS_Store
