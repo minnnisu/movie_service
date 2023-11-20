@@ -13,10 +13,11 @@
         <div class="order-item">
           <img src="<%= orderList[i].poster_image %>" width="200" alt="포스터" />
           <div>
-            <h4><%= orderList[i].title %></h4>
             <p>예매 번호: <%= orderList[i].order_id %></p>
-            <p>상영 시간: <%= orderList[i].start_time %> - <%= orderList[i].end_time %></p>
+            <p><%= orderList[i].title %></p>
             <p>나이 제한: <%= orderList[i].age_limit %></p>
+            <p>상영 시간: <%= orderList[i].start_time %> - <%= orderList[i].end_time %></p>
+            <p>상영관: <%= orderList[i].room_id %>관</p>
             <p>좌석: <%= orderList[i].seats %></p>
           </div>
         </div>
