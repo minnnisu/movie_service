@@ -1,5 +1,6 @@
 const userModel = require("../model/userModel");
 const createError = require("http-errors");
+const common = require("../model/common");
 
 exports.getUser = async function (id) {
   if (id === undefined) throw createError(400, "not_contain_nessary_body");
@@ -15,4 +16,9 @@ exports.getUser = async function (id) {
   };
 
   return fiteredUser;
+};
+
+exports.getOrderList = async function (id) {
+  const orderList = await common.getOrderInfoByUserID(id);
+  return orderList;
 };

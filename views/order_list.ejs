@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order List</title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <h3>주문 목록</h3>
+    <div class="order-list">
+      <% for (let i = 0; i < orderList.length; i++) { %>
+        <div class="order-item">
+          <img src="<%= orderList[i].poster_image %>" width="200" alt="포스터" />
+          <div>
+            <h4><%= orderList[i].title %></h4>
+            <p>예매 번호: <%= orderList[i].order_id %></p>
+            <p>상영 시간: <%= orderList[i].start_time %> - <%= orderList[i].end_time %></p>
+            <p>나이 제한: <%= orderList[i].age_limit %></p>
+            <p>좌석: <%= orderList[i].seats %></p>
+          </div>
+        </div>
+        <hr />
+      <% } %>
+    </div>
+  </body>
+</html>
