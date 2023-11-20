@@ -12,7 +12,12 @@ exports.isLogoutStatus = (req, res, next) => {
   if (!req.isAuthenticated()) {
     return next();
   }
-  if (req.path === "/login" || req.path === "/signup") {
+  if (
+    req.path === "/login" ||
+    req.path === "/signup" ||
+    req.path === "/user/profile" ||
+    req.path === "/user/orderList"
+  ) {
     return next(
       new HttpError(403, "not_logout_status_access_error", {
         isShowErrPage: true,
