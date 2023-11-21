@@ -1,12 +1,10 @@
 const userModel = require("../model/userModel");
-const createError = require("http-errors");
+const HttpError = require("../error/HttpError");
 const common = require("../model/common");
 
 exports.getUser = async function (id) {
-  if (id === undefined) throw createError(400, "not_contain_nessary_body");
-
   const user = await userModel.getUser(id);
-  if (user.length < 1) throw next(createError(404, "not_exist_user_error"));
+  if (user.length < 1) throw new HttpError(404, "not_exist_user_error");
 
   const fiteredUser = {
     id: user[0].id,
