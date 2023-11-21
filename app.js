@@ -11,6 +11,7 @@ const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 const passport = require("passport");
 const passportConfig = require("./api/passport");
+const HttpError = require("./error/HttpError");
 
 const authApiRouter = require("./api/routes/apis/authRouter");
 const userPageRouter = require("./api/routes/pages/userRouter");
@@ -18,7 +19,6 @@ const paymentApiRouter = require("./api/routes/apis/paymentRouter");
 const moviePageRouter = require("./api/routes/pages/movieRouter");
 const indexPageRouter = require("./api/routes/pages/indexRouter");
 const paymentPageRouter = require("./api/routes/pages/paymentRouter");
-const HttpError = require("./error/HttpError");
 
 const app = express();
 const port = 8080;
