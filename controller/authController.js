@@ -33,7 +33,7 @@ exports.localLogin = function (req, res, next) {
 exports.logout = function (req, res, next) {
   req.logout(function (err) {
     if (err) {
-      return next(new HttpError(500, "login_error"));
+      return next(new HttpError(500, "logout_error"));
     }
     res.redirect("/");
   });
