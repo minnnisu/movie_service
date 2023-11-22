@@ -80,8 +80,7 @@ app.use((err, req, res, next) => {
     if (err.option?.isShowErrPage === true) {
       return res.status(err.status).render("error.ejs", {
         err_code: err.status,
-        err_msg:
-          "일시적인 오류이거나 올바르지 않은 접근입니다. 잠시 후 다시 시도해 주세요.",
+        err_msg: err.message,
       });
     }
 
