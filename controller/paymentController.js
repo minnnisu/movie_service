@@ -6,7 +6,7 @@ exports.payMovieTicket = async function (req, res, next) {
   try {
     const orderId = await paymentService.payMovieTicket(info);
     req.session.paymentComplete = true;
-    res.redirect(`/payment/complete?orderId=${orderId}`);
+    res.redirect(`/payment/complete?order_id=${orderId}`);
   } catch (error) {
     next(error);
   }
@@ -19,12 +19,13 @@ exports.getPaymentCompletePage = async function (req, res, next) {
     }
 
     const orderInfo = await paymentService.getPaymentCompleteInfo(
-      req.query.orderId
+      req.query.order_id
     );
 
     // 결제가 완료된 경우 세션을 초기화하고 페이지를 표시
     req.session.paymentComplete = false;
-    return res.status(201).render("payment_complete", { orderInfo });
+    return res.json({ orderInfo });
+    // return res.status(201).render("payment_complete", { orderInfo });
   } catch (error) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
