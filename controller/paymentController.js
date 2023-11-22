@@ -15,7 +15,7 @@ exports.payMovieTicket = async function (req, res, next) {
 exports.getPaymentCompletePage = async function (req, res, next) {
   try {
     if (!req.session.paymentComplete) {
-      return next(new HttpError(403, "Payment not completed"));
+      return next(new HttpError(403, "payment_not_completed"));
     }
 
     const orderInfo = await paymentService.getPaymentCompleteInfo(
