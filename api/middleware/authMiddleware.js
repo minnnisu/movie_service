@@ -1,29 +1,45 @@
 const HttpError = require("../../error/HttpError");
 
-exports.isLoginStatus = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
+exports.isLoginStatusClosure = (option = {}) => {
+  return function (req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
 
-  return next(new HttpError(401, "not_login_status_access_error"));
+    return next(
+      new HttpError(
+        401,
+        "not_login_status_access_error",
+        option.isShowErrPage
+          ? {
+              isShowErrPage: true,
+              isShowCustomeMsg: true,
+              CustomeMsg: "로그인이 필요합니다.",
+            }
+          : {}
+      )
+    );
+  };
 };
 
-exports.isLogoutStatus = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return next();
-  }
-  if (
-    req.path === "/login" ||
-    req.path === "/signup" ||
-    req.path === "/user/profile" ||
-    req.path === "/user/orderList"
-  ) {
-    return next(
-      new HttpError(403, "not_logout_status_access_error", {
-        isShowErrPage: true,
-      })
-    );
-  }
+exports.isLogoutStatusClosure = (option = {}) => {
+  return function (req, res, next) {
+    if (!req.isAuthenticated()) {
+      return next();
+    }
 
-  return next(new HttpError(403, "not_logout_status_access_error"));
+    return next(
+      new HttpError(
+        401,
+        "not_logout_status_access_error",
+        option.isShowErrPage
+          ? {
+              isShowErrPage: true,
+              isShowCustomeMsg: true,
+              CustomeMsg: "로그아웃이 필요합니다.",
+            }
+          : {}
+      )
+    );
+  };
 };

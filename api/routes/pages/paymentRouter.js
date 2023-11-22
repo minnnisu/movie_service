@@ -5,7 +5,9 @@ const paymentController = require("../../../controller/paymentController");
 
 router.get(
   "/complete",
-  authMiddleware.isLoginStatus,
+  authMiddleware.isLoginStatusClosure({
+    isShowErrPage: true,
+  }),
   paymentController.getPaymentCompletePage
 );
 

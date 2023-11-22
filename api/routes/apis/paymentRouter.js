@@ -5,7 +5,7 @@ const paymentController = require("../../../controller/paymentController");
 
 router.post(
   "/ticket",
-  authMiddleware.isLoginStatus,
+  authMiddleware.isLoginStatusClosure(),
   paymentController.payMovieTicket
 );
 

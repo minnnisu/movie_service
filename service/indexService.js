@@ -12,6 +12,5 @@ exports.getMainPage = async function (id) {
     responeData["user"] = { is_login_status: false };
   }
 
-  console.log(responeData);
   return responeData;
 };

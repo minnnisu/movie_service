@@ -5,7 +5,12 @@ exports.getUser = async function (req, res, next) {
     const user = await userService.getUser(req.user);
     return res.render("my_page", { user });
   } catch (error) {
-    return next(error);
+    if (err instanceof HttpError) {
+      err.option = { isShowErrPage: true };
+      return next(err);
+    }
+
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };
 
@@ -14,6 +19,11 @@ exports.getOrderedList = async function (req, res, next) {
     const orderList = await userService.getOrderList(req.user);
     return res.render("order_list", { orderList });
   } catch (error) {
-    return next(error);
+    if (err instanceof HttpError) {
+      err.option = { isShowErrPage: true };
+      return next(err);
+    }
+
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };

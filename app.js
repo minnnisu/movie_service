@@ -60,15 +60,31 @@ app.use("/payment", paymentPageRouter);
 app.use("/api/auth", authApiRouter);
 app.use("/api/payment", paymentApiRouter);
 
+app.use(function (req, res, next) {
+  res.status(404).render("error404");
+});
+
 app.use((err, req, res, next) => {
-  console.log(err);
+  console.error(err);
   if (err instanceof HttpError) {
-    if (err.option?.isShowErrPage === true) {
-      return res.render("error.ejs", {
+    if (
+      err.option?.isShowErrPage === true &&
+      err.option?.isShowCustomeMsg === true
+    ) {
+      return res.status(err.status).render("error.ejs", {
         err_code: err.status,
-        err_message: err.message,
+        err_msg: err.option.CustomeMsg,
       });
     }
+
+    if (err.option?.isShowErrPage === true) {
+      return res.status(err.status).render("error.ejs", {
+        err_code: err.status,
+        err_msg:
+          "일시적인 오류이거나 올바르지 않은 접근입니다. 잠시 후 다시 시도해 주세요.",
+      });
+    }
+
     return res.status(err.status).json({ message: err.message });
   }
 

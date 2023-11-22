@@ -7,7 +7,9 @@ router.get("/movieDetail/:title", movieController.getMovieInfoPage);
 router.get("/ticketing", movieController.getMovieTicketingPage);
 router.get(
   "/ticketing/personSeat",
-  authMiddleware.isLoginStatus,
+  authMiddleware.isLoginStatusClosure({
+    isShowErrPage: true,
+  }),
   movieController.getMoviePersonSeatPage
 );
 

@@ -3,10 +3,18 @@ const router = express.Router();
 const userController = require("../../../controller/userController");
 const authMiddleware = require("../../middleware/authMiddleware");
 
-router.get("/profile", authMiddleware.isLoginStatus, userController.getUser);
+router.get(
+  "/profile",
+  authMiddleware.isLoginStatusClosure({
+    isShowErrPage: true,
+  }),
+  userController.getUser
+);
 router.get(
   "/orderList",
-  authMiddleware.isLoginStatus,
+  authMiddleware.isLoginStatusClosure({
+    isShowErrPage: true,
+  }),
   userController.getOrderedList
 );
 

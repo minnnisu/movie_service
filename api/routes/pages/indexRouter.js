@@ -7,13 +7,17 @@ router.get("/", indexController.getMainPage);
 
 router.get(
   "/login",
-  authMiddleware.isLogoutStatus,
+  authMiddleware.isLogoutStatusClosure({
+    isShowErrPage: true,
+  }),
   indexController.getLoginPage
 );
 
 router.get(
   "/signup",
-  authMiddleware.isLogoutStatus,
+  authMiddleware.isLogoutStatusClosure({
+    isShowErrPage: true,
+  }),
   indexController.getSignUpPage
 );
 

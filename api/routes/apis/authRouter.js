@@ -5,17 +5,25 @@ const authMiddleware = require("../../middleware/authMiddleware");
 
 router.post(
   "/local/login",
-  authMiddleware.isLogoutStatus,
+  authMiddleware.isLogoutStatusClosure(),
   authController.localLogin
 );
 
-router.post("/signup", authMiddleware.isLogoutStatus, authController.signup);
+router.post(
+  "/signup",
+  authMiddleware.isLogoutStatusClosure(),
+  authController.signup
+);
 
-router.post("/logout", authMiddleware.isLoginStatus, authController.logout);
+router.post(
+  "/logout",
+  authMiddleware.isLoginStatusClosure(),
+  authController.logout
+);
 
 router.post(
   "/local/id/check",
-  authMiddleware.isLogoutStatus,
+  authMiddleware.isLogoutStatusClosure(),
   authController.checkId
 );
 
