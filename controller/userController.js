@@ -4,7 +4,7 @@ exports.getUser = async function (req, res, next) {
   try {
     const user = await userService.getUser(req.user);
     return res.render("my_page", { user });
-  } catch (error) {
+  } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
@@ -18,7 +18,7 @@ exports.getOrderedList = async function (req, res, next) {
   try {
     const orderList = await userService.getOrderList(req.user);
     return res.render("order_list", { orderList });
-  } catch (error) {
+  } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
