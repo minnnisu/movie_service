@@ -24,8 +24,7 @@ exports.getPaymentCompletePage = async function (req, res, next) {
 
     // 결제가 완료된 경우 세션을 초기화하고 페이지를 표시
     req.session.paymentComplete = false;
-    return res.json({ orderInfo });
-    // return res.status(201).render("payment_complete", { orderInfo });
+    return res.status(201).render("payment_complete", { orderInfo });
   } catch (error) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
