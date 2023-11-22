@@ -1,3 +1,4 @@
+const HttpError = require("../error/HttpError");
 const userService = require("../service/userService");
 
 exports.getUser = async function (req, res, next) {
@@ -19,6 +20,7 @@ exports.getOrderedList = async function (req, res, next) {
     const orderList = await userService.getOrderList(req.user);
     return res.render("order_list", { orderList });
   } catch (err) {
+    console.log(err);
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
