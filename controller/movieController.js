@@ -36,7 +36,7 @@ exports.getMoviePersonSeatPage = async function (req, res, next) {
     const seats = await movieService.getMoviePersonSeatByMovieTimeId(
       req.query.movie_time_id
     );
-    return res.status(200).json({ seats });
+    return res.render("seats", { seats });
   } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
