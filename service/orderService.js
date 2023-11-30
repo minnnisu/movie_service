@@ -13,7 +13,7 @@ exports.cancelOrder = async function (orderId) {
 
   const orderStatus = await orderModel.getOrderStatusByOrderId(orderId);
   if (orderStatus !== "예매 취소 가능") {
-    throw new HttpError(404, "cannot_cancel_order_error");
+    throw new HttpError(400, "cannot_cancel_order_error");
   }
 
   await orderModel.cancelOrder(orderId);
