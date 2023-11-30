@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Order Details</title>
+  </head>
+
+  <body>
+    <h1>Movie Order Details</h1>
+    <ul>
+      <li><strong>Order ID:</strong> <%= orderInfo.order_id %></li>
+      <li><strong>Title:</strong> <%= orderInfo.title %></li>
+      <li><strong>Room ID:</strong> <%= orderInfo.room_id %></li>
+      <li><strong>Seats:</strong> <%= orderInfo.seats_s.join(', ') %></li>
+      <li><strong>Start Time:</strong> <%= orderInfo.start_time %></li>
+      <li><strong>End Time:</strong> <%= orderInfo.end_time %></li>
+      <li><strong>Price:</strong> <%= orderInfo.price %> KRW</li>
+    </ul>
+  </body>
+
+  </html>
+
+</body>
+
+</html>
