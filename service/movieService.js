@@ -29,6 +29,7 @@ function groupMoviesSchedule(moviesSchedule) {
     const {
       movie_time_id,
       title,
+      age_limit,
       room_id,
       start_time,
       end_time,
@@ -42,6 +43,7 @@ function groupMoviesSchedule(moviesSchedule) {
     if (!movieInfo) {
       movieInfo = {
         title,
+        age_limit,
         rooms: [],
       };
       groupedMovie.push(movieInfo);
