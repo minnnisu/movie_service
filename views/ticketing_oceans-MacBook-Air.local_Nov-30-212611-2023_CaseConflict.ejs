@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('include/head') %>
+    <link rel="stylesheet" href="styles/Ticketing.css">
+    <script src="/util/date_data.js" ></script>
+    <title>예매</title>
+  </head>
+  <body>
+    <%- include('include/header') %>
+    <div class="reserve-container">
+      <div class="movie-part">
+        <div class="reserve-title">영화</div>
+        <div class="sort-wrapper">
+          <div class="sort-rate sort-selected">예매율순</div>
+          <div class="sort-korean">가나다순</div>
+        </div>
+        <div class="movie-list">영화 목록 가져오기</div>
+      </div>
+      <div class="theater-part">
+        <div class="reserve-title">극장</div>
+        <div></div>
+      </div>
+      <div class="day-part">
+        <div class="reserve-title">날짜</div>
+        <div class="reserve-date"></div>
+      </div>
+      <div class="time-part">
+        <div class="reserve-title"><a href="/seat">seat</a></div>
+      </div>
+    </div>
+    </script>
+  </body>
+</html>
