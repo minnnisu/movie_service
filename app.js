@@ -15,7 +15,9 @@ const HttpError = require("./error/HttpError");
 
 const authApiRouter = require("./api/routes/apis/authRouter");
 const paymentApiRouter = require("./api/routes/apis/paymentRouter");
-const orderRouter = require("./api/routes/apis/orderRouter");
+const orderApiRouter = require("./api/routes/apis/orderRouter");
+const userApiRouter = require("./api/routes/apis/userRouter");
+
 const userPageRouter = require("./api/routes/pages/userRouter");
 const moviePageRouter = require("./api/routes/pages/movieRouter");
 const indexPageRouter = require("./api/routes/pages/indexRouter");
@@ -60,7 +62,8 @@ app.use("/movie", moviePageRouter);
 app.use("/payment", paymentPageRouter);
 app.use("/api/auth", authApiRouter);
 app.use("/api/payment", paymentApiRouter);
-app.use("/api/order", orderRouter);
+app.use("/api/order", orderApiRouter);
+app.use("/api/user", userApiRouter);
 
 app.use(function (req, res, next) {
   res.status(404).render("error404");

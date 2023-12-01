@@ -47,3 +47,33 @@ exports.addNewUser = async function (userInfo) {
     connection.release();
   }
 };
+
+exports.deleteUser = async function (userId) {
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    connection.query(
+      `
+      UPDATE orders
+      SET canceled_at = NOW()
+      WHERE order_id IN
+      (SELECT o.order_id
+        FROM 
+        (SELECT * FROM orders WHERE user_id = ?) o
+        LEFT JOIN movieSchedule ms 
+        ON o.movie_time_id = ms.movie_time_id
+        WHERE o.canceled_at IS NULL AND ms.start_time > NOW())
+        `,
+      [userId]
+    );
+    connection.query("DELETE FROM users WHERE id = ?", [userId]);
+
+    await connection.commit();
+  } catch (err) {
+    await connection.rollback();
+    throw err;
+  } finally {
+    connection.release();
+  }
+};
