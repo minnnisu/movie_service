@@ -1,5 +1,6 @@
 section {
     margin: auto;
+    margin-top: 20px;
     display: flex;
     width: 32.6875rem;
     flex-direction: column;

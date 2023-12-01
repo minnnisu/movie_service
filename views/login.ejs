@@ -24,7 +24,9 @@
           <label for="pw">비밀번호</label>
         </div>
         <div class="btn-area">
-          <button id="btn" type="submit">로그인</button>
+          <button id="btn" type="submit" onclick="submitForm(event)">
+            로그인
+          </button>
         </div>
       </form>
       <div class="caption">
@@ -38,5 +40,63 @@
         />
       </a>
     </section>
+    <script>
+      function submitForm(event) {
+        event.preventDefault();
+
+        var nameValue = document.getElementById("id").value;
+        var pwValue = document.getElementById("pw").value;
+
+        // 여기서 서버로 값 전송 또는 다른 동작 수행 가능
+        var formData = {
+          username: nameValue,
+          password: pwValue,
+        };
+
+        // 서버로 POST 요청 보내기 (Ajax나 fetch API 사용)
+        fetch("http://localhost:8080/api/auth/local/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }).then((response) => {
+          handleApiError(response);
+          return response.json();
+        });
+      }
+      function handleApiError(response) {
+        if (!response.ok) {
+          switch (response.status) {
+            case 404:
+              alert("필수로 포함해야하는 본문을 포함하지 않음");
+              break;
+            case 401:
+              // var errorData = response.json();
+              // errorData.then(data => {
+              //     switch (data.errorCode) {
+              //         case 'not_match_pw_condition_error':
+              //             alert('존재하지 않은 아이디로 로그인을 요청함');
+              //             break;
+              //         case 'pw_consistency_error':
+              //             alert('비밀번호가 일치하지않음');
+              //             break;
+              alert("로그인 과정에서 예상치 못한 에러가 발생함");
+              break;
+            case 403:
+              alert("로그인을 한 상태에서 접근함");
+              break;
+            case 500:
+              alert("로그인 과정에서 예상치 못한 에러가 발생함");
+              break;
+            default:
+              alert("알 수 없는 오류가 발생함");
+              break;
+          }
+        } else {
+          alert("로그인 완료! ><.");
+        }
+      }
+    </script>
   </body>
 </html>
