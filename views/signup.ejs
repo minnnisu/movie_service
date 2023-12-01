@@ -116,7 +116,7 @@
 
 }
 
-function handleApiError(response) {
+async function handleApiError(response) {
     if (!response.ok) {
         switch (response.status) {
             case 404:
@@ -129,27 +129,25 @@ function handleApiError(response) {
                 alert('아이디가 중복됨');
                 break;
             case 422:
-                // var errorData = response.json();
-                // errorData.then(data => {
-                //     switch (data.errorCode) {
-                //         case 'not_match_pw_condition_error':
-                //             alert('비밀번호 조합이 유효하지 않음');
-                //             break;
-                //         case 'pw_consistency_error':
-                //             alert('비밀번호와 재입력 비밀번호가 일치하지 않음');
-                //             break;
-                //         case 'not_match_email_condition_error':
-                //             alert('이메일 형식이 유효하지 않음');
-                //             break;
-                //         case 'not_match_telephone_condition_error':
-                //             alert('휴대폰번호 형식이 유효하지 않음');
-                //             break;
-                //         default:
-                //             alert('알 수 없는 오류가 발생함');
-                //             break;
-                //     }
-                // });
-                alert('알 수 없는 오류가 발생함');
+                var errorData = await response.json();
+                console.log(errorData.message);
+                switch (errorData.message) {
+                    case 'not_match_password_condition_error':
+                        alert('비밀번호 조합이 유효하지 않음');
+                        break;
+                    case 'pw_consistency_error':
+                        alert('비밀번호와 재입력 비밀번호가 일치하지 않음');
+                        break;
+                    case 'not_match_email_condition_error':
+                        alert('이메일 형식이 유효하지 않음');
+                        break;
+                    case 'not_match_telephone_condition_error':
+                        alert('휴대폰번호 형식이 유효하지 않음');
+                        break;
+                    default:
+                        alert('알 수 없는 오류가 발생함');
+                        break;
+                }
                 break;
             case 500:
                 alert('서버에 문제가 발생함');
