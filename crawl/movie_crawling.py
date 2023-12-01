@@ -115,8 +115,8 @@ def crawl_movie_data(date):
             movie_info_list.append({"poster_image": poster_image, "title": title, "running_time": running_time, "age_limit": age_limit, "released_date": DUMMY_RELEASED_DATE})
             
         for movie in movie_meta_data:
-            end_time = pd.Timestamp(meta_data['playDate'] + '-' + movie["EndTime"]).to_pydatetime()
-            start_time = pd.Timestamp(meta_data['playDate'] + '-' + movie["StartTime"]).to_pydatetime()
+            end_time = pd.Timestamp(meta_data['playDate'] + '-' + movie["EndTime"]).to_pydatetime() - timedelta(hours=9)
+            start_time = pd.Timestamp(meta_data['playDate'] + '-' + movie["StartTime"]).to_pydatetime() - timedelta(hours=9)
             movie_schedule_list.append({"title": title, "start_time": start_time, "end_time": end_time})
         
     return movie_info_list, movie_schedule_list
