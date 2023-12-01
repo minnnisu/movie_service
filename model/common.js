@@ -24,7 +24,9 @@ exports.getOrderInfoByUserID = async function (id) {
 
   try {
     const [rows] = await connection.query(
-      `SELECT o.order_id, m.age_limit, m.title, m.poster_image, ms.room_id, DATE_FORMAT(ms.start_time, '%Y-%m-%d %H:%i') AS start_time, DATE_FORMAT(ms.end_time, '%Y-%m-%d %H:%i') AS end_time,
+      `SELECT o.order_id, m.age_limit, m.title, m.poster_image, ms.room_id, 
+        DATE_FORMAT(CONVERT_TZ(ms.start_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS start_time, 
+        DATE_FORMAT(CONVERT_TZ(ms.end_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS end_time,
         (SELECT GROUP_CONCAT(CONCAT(seat_row, seat_col) ORDER BY seat_col SEPARATOR ', ')
         FROM orderedSeats
         WHERE order_id = o.order_id) seats,
