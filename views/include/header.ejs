@@ -9,7 +9,7 @@
       <li><a href="/movie/Ticketing">예매</a></li>
       <% if (user && user.is_login_status) { %>
       <a href="/user/profile"><%= user.name %></a>
-      <li>로그아웃</li>
+      <li onclick="logout()">로그아웃</li>
       <% } else { %>
       <a href="/login">로그인</a>
       <a href="/signup">회원가입</a>
@@ -17,3 +17,27 @@
     </ul>
   </nav>
 </header>
+<script>
+  async function logout() {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        var errorData = await response.json();
+        switch (errorData.message) {
+          case "not_login_status_access_error":
+            return alert("로그인 상태가 아닙니다.");
+          case "logout_error":
+          default:
+            return alert("예상치 못한 에러가 발생하였습니다.");
+        }
+      }
+
+      return (window.location.href = "/");
+    } catch (error) {
+      return alert("예상치 못한 에러가 발생하였습니다.");
+    }
+  }
+</script>

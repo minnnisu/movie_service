@@ -4,8 +4,7 @@
   <li>
     <img src="<%= movies[i].poster_image %>" width="200" alt="포스터" />
     <div>
-      <a class="Movie-title" href="movie/movieDetail/<%= movies[i].title %>"></a>
-      <p class="age">12</p>
+      <a class="Movie-title" href="movie/movieDetail/<%= movies[i].title %>"><%= movies[i].title %></a>
       <div class="running-time"><%= movies[i].running_time %></div>
       <div class="age"><%= movies[i].age_limit %></div>
     </div>
