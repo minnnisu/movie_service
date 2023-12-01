@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../../middleware/authMiddleware");
-const paymentController = require("../../../controller/paymentController");
+const orderController = require("../../../controller/orderController");
 
-router.post(
-  "/ticket",
+router.delete(
+  "/:order_id",
   authMiddleware.isLoginStatusClosure(),
-  paymentController.payMovieTicket
+  orderController.cancelOrder
 );
+
 module.exports = router;

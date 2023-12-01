@@ -47,3 +47,41 @@ exports.addNewOrder = async function ({
     connection.release();
   }
 };
+
+exports.getOrderByOrderId = async function (orderId) {
+  const connection = await pool.getConnection();
+
+  const [rows] = await connection.query(
+    `SELECT *
+    FROM orders
+    WHERE order_id = ?;`,
+    [orderId]
+  );
+
+  return rows;
+};
+
+exports.getOrderStatusByOrderId = async function (orderId) {
+  const connection = await pool.getConnection();
+
+  const [rows] = await connection.query(
+    `SELECT 
+      CASE WHEN o.canceled_at IS NOT NULL THEN "예매 취소됨" WHEN ms.start_time < NOW() THEN "상영 종료" ELSE "예매 취소 가능" END AS status
+    FROM orders o LEFT JOIN movieSchedule ms ON o.movie_time_id = ms.movie_time_id
+    WHERE o.order_id = ?;`,
+    [orderId]
+  );
+
+  return rows[0].status;
+};
+
+exports.cancelOrder = async function (orderId) {
+  const connection = await pool.getConnection();
+
+  await connection.query(
+    `UPDATE orders
+    SET canceled_at = NOW()
+    WHERE order_id = ?`,
+    [orderId]
+  );
+};

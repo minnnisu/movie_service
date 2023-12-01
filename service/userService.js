@@ -20,3 +20,7 @@ exports.getOrderList = async function (id) {
   const orderList = await common.getOrderInfoByUserID(id);
   return orderList;
 };
+
+exports.deleteUser = async function (id) {
+  await userModel.deleteUser(id);
+};

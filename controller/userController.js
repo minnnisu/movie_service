@@ -29,3 +29,17 @@ exports.getOrderedList = async function (req, res, next) {
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };
+
+exports.deleteUser = async function (req, res, next) {
+  try {
+    await userService.deleteUser(req.user);
+    req.logout(function (err) {
+      if (err) {
+        return next(new HttpError(500, "logout_error"));
+      }
+      res.status(201).json({ message: "Successfully delete user!" });
+    });
+  } catch (error) {
+    return next(err);
+  }
+};
