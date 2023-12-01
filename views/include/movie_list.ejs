@@ -1,67 +1,14 @@
 <!-- 영화 리스트 -->
 <ul id="movie-list">
+  <% for(let i = 0; i < movies.length; i++){ %>
   <li>
-    <img src="image/sibal.webp" alt="Movie" />
+    <img src="<%= movies[i].poster_image %>" width="200" alt="포스터" />
     <div>
-      <h2 class="Movie-title">abc</h2>
+      <a class="Movie-title" href="movie/movieDetail/<%= movies[i].title %>"></a>
       <p class="age">12</p>
-      <p class="running-time">123</p>
+      <div class="running-time"><%= movies[i].running_time %></div>
+      <div class="age"><%= movies[i].age_limit %></div>
     </div>
   </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
-  <li>
-    <img src="image/sibal.webp" alt="Movie" />
-    <div>
-      <h2 class="Movie-title">abc</h2>
-      <p class="age">12</p>
-      <p class="running-time">123</p>
-    </div>
-  </li>
+  <% } %>
 </ul>

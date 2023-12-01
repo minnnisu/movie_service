@@ -3,14 +3,23 @@ const userModel = require("../model/userModel");
 
 exports.getMainPage = async function (id) {
   const movies = await movieModel.getMoviesSummary();
-  const responeData = { user: {}, movies };
+  const data = { user: {}, movies };
 
   if (id !== undefined) {
     const user = await userModel.getUser(id);
-    responeData["user"] = { is_login_status: true, name: user[0].name };
+    data["user"] = { is_login_status: true, name: user[0].name };
   } else {
-    responeData["user"] = { is_login_status: false };
+    data["user"] = { is_login_status: false };
   }
 
-  return responeData;
+  return data;
+};
+
+exports.getLogInOutPage = async function (id) {
+  if (id !== undefined) {
+    const user = await userModel.getUser(id);
+    return { is_login_status: true, name: user[0].name };
+  } else {
+    return { is_login_status: false };
+  }
 };
