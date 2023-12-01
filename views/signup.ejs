@@ -1,33 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
+    <%- include('include/head') %>
+    <link rel="stylesheet" href="styles/register_styles.css">
+    <title>회원가입</title>
 </head>
+
 <body>
-  <h1>Sign Up</h1>
+    <%- include('include/header') %>
+    <main>
+        <section>
+            <!-- 아이디 -->
+            <div>
+                <label>아이디</label><br>
+                <span>
+                    <input type="text" id="id" maxlength="20">
+                    <button id="check" type="submit" onclick="IDsubmitForm()" >중복확인</button>
+                </span>
+            </div>
+            <!-- 비밀번호 -->
+            <div>
+                <label>비밀번호</label><br>
+                <span><input type="password" id="pw" maxlength="20"></span>
+            </div>
+            <!-- 비밀번호 재입력 -->
+            <div>
+                <label>비밀번호 재입력</label><br>
+                <span><input type="password" id="pwCheck" maxlength="20"></span>
+            </div>
+            <!-- 이름 -->
+            <div >
+                <label>이름</label><br>
+                <span><input type="text" id="name" maxlength="20"></span>
+            </div>
+            <!-- 이메일 입력 -->
+            <div>
+                <label>이메일</label><br>
+                <span><input type="text" id="email" maxlength="20" placeholder="minsu@saewoo.com" oninput="validateEmail()"></span>
+                <label id="emailError" style="color: red;"></label>
+            </div>
+            <!-- 휴대폰번호 -->
+            <div>
+                <label>휴대폰번호</label><br>
+                <span><input type="text" id="phoneNum" maxlength="13" placeholder="010XXXXXXXX" oninput="formatPhoneNumber()"></span>
+                
+            </div>
+            <div>
+                <button id="join" type="submit"onclick="submitForm()" >회원가입</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        function formatPhoneNumber() {
+            // 입력된 휴대폰 번호 가져오기
+            var phoneNumberInput = document.getElementById('phoneNum');
+            var phoneNumber = phoneNumberInput.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
 
-  <form action="/api/auth/signup" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="id" name="id" required>
+            // 입력된 번호에 따라 하이픈 추가
+            if (phoneNumber.length >= 3 && phoneNumber.length <= 10) {
+                phoneNumber = phoneNumber.replace(/(\d{3})(\d{0,4})(\d{0,4})/, '010-$2-$3');
+            } else if (phoneNumber.length > 10) {
+                phoneNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '010-$2-$3');
+            }
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+            // 포맷된 번호를 입력 필드에 설정
+            phoneNumberInput.value = phoneNumber;
+        }
 
-        <label for="password">Repeat password:</label>
-    <input type="password" id="checkedPassword" name="checkedPassword" required>
+        function validateEmail() {
+            // 이메일 형식을 확인하는 정규 표현식
+            var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            var emailInput = document.getElementById('email');
+            var emailErrorLabel = document.getElementById('emailError');
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+            if (regex.test(emailInput.value)) {
+                // 이메일 형식이 올바르면 에러 메시지를 숨깁니다.
+                emailErrorLabel.textContent = '';
+            } else {
+                // 이메일 형식이 올바르지 않으면 에러 메시지를 표시합니다.
+                emailErrorLabel.textContent = '올바르지 않은 이메일 형식입니다.';
+            }
+        }
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+            
+        function submitForm() {
+  
+    var usernameValue = document.getElementById('id').value;
+    var emailValue = document.getElementById('email').value;
+    var passwordValue = document.getElementById('pw').value;
+    var passwordCheckValue = document.getElementById('pwCheck').value;
+    var phoneNumValue = document.getElementById('phoneNum').value;
+    var nameValue = document.getElementById('name').value;
 
-    <label for="telephone">Telephone:</label>
-    <input type="tel" id="telephone" name="telephone" required>
+    // 여기서 서버로 값 전송 또는 다른 동작 수행 가능
+    var formData = {
+        id: usernameValue,
+        password: passwordValue,
+        checkedPassword: passwordCheckValue,
+        name: nameValue,
+        email: emailValue,
+        telephone: phoneNumValue
+    };
 
-    <button type="submit">Sign Up</button>
-  </form>
+    // 서버로 POST 요청 보내기 (Ajax나 fetch API 사용)
+    fetch('http://localhost:8080/api/auth/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        handleApiError(response);
+        return response.json();
+    })
+
+}
+
+async function handleApiError(response) {
+    if (!response.ok) {
+        switch (response.status) {
+            case 404:
+                alert('필수로 포함해야하는 본문을 포함하지 않음');
+                break;
+            case 403:
+                alert('로그인을 한 상태에서 접근함');
+                break;
+            case 409:
+                alert('아이디가 중복됨');
+                break;
+            case 422:
+                var errorData = await response.json();
+                console.log(errorData.message);
+                switch (errorData.message) {
+                    case 'not_match_password_condition_error':
+                        alert('비밀번호 조합이 유효하지 않음');
+                        break;
+                    case 'pw_consistency_error':
+                        alert('비밀번호와 재입력 비밀번호가 일치하지 않음');
+                        break;
+                    case 'not_match_email_condition_error':
+                        alert('이메일 형식이 유효하지 않음');
+                        break;
+                    case 'not_match_telephone_condition_error':
+                        alert('휴대폰번호 형식이 유효하지 않음');
+                        break;
+                    default:
+                        alert('알 수 없는 오류가 발생함');
+                        break;
+                }
+                break;
+            case 500:
+                alert('서버에 문제가 발생함');
+                break;
+            default:
+                alert('알 수 없는 오류가 발생함');
+                break;
+        }
+    }
+    else{
+        alert('회원가입이 완료되었습니다.');
+
+    }
+}
+
+
+function IDsubmitForm() {
+  
+  var usernameValue = document.getElementById('id').value;
+
+  // 여기서 서버로 값 전송 또는 다른 동작 수행 가능
+  var formData = {
+      id: usernameValue,
+  };
+
+  // 서버로 POST 요청 보내기 (Ajax나 fetch API 사용)
+  fetch('http://localhost:8080/api/auth/local/id/check', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+  })
+  .then(response => {
+      IDhandleApiError(response);
+      return response.json();
+  })
+}
+
+function IDhandleApiError(response) {
+    if (!response.ok) {
+        switch (response.status) {
+            case 403:
+                alert('로그인을 한 상태에서 접근함');
+                break;
+            case 404:
+                alert('필수로 포함해야하는 본문을 포함하지 않음');
+                break;
+            case 409:
+                alert('아이디가 중복됨');
+                return;
+            case 500:
+                alert('서버에 문제가 발생함');
+                break;
+        }
+    }
+    else{
+      alert('사용할 수 있는 ID.');
+
+    }
+}
+
+
+      </script>
 </body>
+
 </html>

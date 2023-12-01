@@ -6,6 +6,7 @@ exports.getMainPage = async function (req, res, next) {
     const reponseDate = await indexService.getMainPage(req.user);
     res.render("index", { ...reponseDate });
   } catch (error) {
+    console.log(error);
     next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };

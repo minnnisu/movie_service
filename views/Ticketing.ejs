@@ -1,0 +1,185 @@
+<!-- ticket.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('include/head') %>
+  <link rel="stylesheet" href="/styles/ticket_styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <title>예매</title>
+
+  <body>
+    <%- include('include/header') %>
+    <div class="showtimes">
+      <div class="sect-schedule">
+        <div id="slider" class="slider">
+          <div class="item-wrap">
+            <ul class="item">
+              <% for (let i=0; i < 8; i++) { %>
+              <li class="<%= i === 0 ? 'on' : '' %>">
+                <div class="day">
+                  <a
+                    href="#"
+                    class="day-link"
+                    data-date="<%= moment().add(i, 'days').format('YYYY-MM-DD') %>"
+                  >
+                    <span class="month">
+                      <%= moment().add(i, 'days' ).format('MM') %>월
+                    </span>
+                    <span class="date">
+                      <%= moment().add(i, 'days' ).format('DD') %>
+                    </span>
+                    <span class="day-of-week">
+                      <%= moment().add(i, 'days' ).format('ddd') %>
+                    </span>
+                  </a>
+                </div>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sect-showtimes">
+        <ul id="movieSchedule"></ul>
+      </div>
+    </div>
+
+    <script>
+      function getMovieSchedule(selectedDate) {
+        fetch(`/getMovieSchedule?date=${selectedDate}`)
+          .then((response) => response.json())
+          .then((data) => {
+            updateMovieSchedule(data);
+          })
+          .catch((error) =>
+            console.error("Error fetching movie schedule:", error)
+          );
+      }
+
+      function updateMovieSchedule(scheduleData) {
+        const movieScheduleElement = document.getElementById("movieSchedule");
+        movieScheduleElement.innerHTML = "";
+
+        const groupedMovies = groupMovies(scheduleData);
+
+        for (const movieGroup of groupedMovies) {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="col-times">
+              <div class="info-movie">
+                <i class="age${movieGroup[0]?.[0]?.age.replace(/\s+/g, "")}">${
+            movieGroup[0]?.[0]?.age
+          }</i>
+                <a href="#" target="_parent">
+                  <strong>${movieGroup[0]?.[0]?.title}</strong>
+                  </a>
+                  ${movieGroup
+                    .map((locationGroup) => {
+                      const filteredMovies = locationGroup.filter((movie) =>
+                        moment(movie.startTime).isAfter(moment())
+                      );
+
+                      if (filteredMovies.length === 0) return "";
+
+                      return `
+                    <div class="type-hall">
+                      <div class="info-hall">
+                        <ul>
+                          <li>${locationGroup[0].type} | ${
+                        locationGroup[0].location
+                      } | 총 ${locationGroup[0].totalSeats}석</li>
+                        </ul>
+                      </div>
+                          <div class="info-timetable">
+                            <ul>
+                              ${filteredMovies
+                                .map(
+                                  (movie) => `
+                                <li>
+                                  <a href="#">
+                                    <em>${moment(movie.startTime).format(
+                                      "HH:mm"
+                                    )}</em>
+                                    <span class="midnight txt-lightblue">
+                                      <span class="hidden">잔여좌석</span>
+                                      ${movie.remainingSeats}석
+                                    </span>
+                                  </a>
+                                </li>
+                              `
+                                )
+                                .join("")}
+                            </ul>
+                          </div>
+                    </div>
+                     `;
+                    })
+                    .join("")}
+              </div>
+            </div>
+            `;
+          movieScheduleElement.appendChild(li);
+        }
+      }
+
+      function groupMovies(movies) {
+        const grouped = {};
+
+        movies.forEach((movie) => {
+          const movieKey = movie.title;
+          const locationKey = movie.location;
+
+          if (!grouped[movieKey]) {
+            grouped[movieKey] = {};
+          }
+
+          if (!grouped[movieKey][locationKey]) {
+            grouped[movieKey][locationKey] = [];
+          }
+
+          grouped[movieKey][locationKey].push(movie);
+        });
+
+        const result = [];
+
+        for (const movieKey in grouped) {
+          const movieGroup = [];
+          for (const locationKey in grouped[movieKey]) {
+            movieGroup.push(grouped[movieKey][locationKey]);
+          }
+          result.push(movieGroup);
+        }
+
+        return result;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const firstDayButton = document.querySelector(".day-link");
+        firstDayButton.click();
+      });
+
+      document.querySelectorAll(".day-link").forEach((dayButton) => {
+        dayButton.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          document
+            .querySelectorAll(".day-link")
+            .forEach((btn) => btn.classList.remove("selected"));
+
+          this.classList.add("selected");
+
+          document
+            .querySelectorAll(".day-link")
+            .forEach((btn) => (btn.style.backgroundColor = "#ddd"));
+
+          this.style.backgroundColor = "rgb(255, 251, 0)";
+
+          const selectedDate = this.dataset.date;
+          getMovieSchedule(selectedDate);
+
+          window.location.href = "/ticket#" + selectedDate;
+        });
+      });
+    </script>
+  </body>
+</html>

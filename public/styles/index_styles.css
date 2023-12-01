@@ -1,0 +1,45 @@
+#movie-list {
+    display: flex;
+    width: 71.5625rem;
+    padding: 3.875rem;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 2.5rem 4.4375rem;
+    flex-wrap: wrap;   
+}
+
+main li {
+    display: flex;
+    width: 12.625rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5625rem;
+    flex-shrink: 0;
+}
+
+main li img {
+    width: 12rem;
+    height: 17.25rem;
+}
+
+main li h2 {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+main li p {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+

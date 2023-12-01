@@ -1,5 +1,0 @@
-/node_modules
-/session
-/db/testInsert.js
-.env
-.DS_Store

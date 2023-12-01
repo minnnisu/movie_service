@@ -1,37 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dongguk theater</title>
-    <link rel="stylesheet" href="/css/main.css" />
-  </head>
-  <body>
-    <h3>메인페이지</h3>
-    <% if (user && user.is_login_status) { %>
-      <a href="/user/profile"><%= user.name %></a>
-      <form action="/api/auth/logout" method="post">
-        <button type="submit">로그아웃</button>
-      </form>
-    <% } else { %>
-      <a href="/login">로그인</a>
-      <a href="/signup">회원가입</a>
-    <% } %>
-    <a href="movie/ticketing">예매</a>
-    <div class="container">
-      <% for(let i = 0; i < movies.length; i++){ %>
-        <div>
-          <img src="<%= movies[i].poster_image %>" width="200" alt="포스터" />
-          <div>
-            <a href="movie/movieDetail/<%= movies[i].title %>">
-              <%= movies[i].title %>
-            </a>
-          </div>
-          <div><%= movies[i].running_time %></div>
-          <div><%= movies[i].age_limit %></div>
-        </div>
-        <hr />
-      <% } %>
-    </div>
-  </body>
+    <%- include('include/head') %>
+    <link rel="stylesheet" href="/styles/index_styles.css">
+    <title>Movie ticket reservation</title>
+</head>
+<body>
+    <%- include('include/header') %>
+    <main>
+        <%- include('include/movie_list') %>
+    </main>
+</body>
 </html>
