@@ -53,14 +53,21 @@
   border-bottom: 1.5px solid rgb(58, 58, 58);
 }
 
-.trailer_container .trailer_list {
+.trailer-container {
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
 }
 
-.trailer_video_wrapper {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.trailer-container video {
+  width: 100%;
+  object-fit: cover;
+}
+
+.trailer_wrapper.description {
+  font-weight: 500;
+  color: rgb(58, 58, 58);
 }
 
 .footer {

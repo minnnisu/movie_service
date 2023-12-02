@@ -1,6 +1,6 @@
 require("dotenv").config();
 const movieModel = require("../model/movieModel");
-const userModel = require("../model/userModel");
+const movieVideoModel = require("../model/movieVideoModel");
 const movieScheduleModel = require("../model/movieScheduleModel");
 const orderedSeatModel = require("../model/orderedSeatModel");
 const HttpError = require("../error/HttpError");
@@ -11,7 +11,10 @@ exports.getMovieSummaryList = async function () {
 };
 
 exports.getMovieInfo = async function (title) {
-  return await movieModel.getMovieByTitle(title);
+  const movie = await movieModel.getMovieByTitle(title);
+  const videos = await movieVideoModel.getMovieVideos(title);
+
+  return { movie, videos };
 };
 
 function getToday_Y_M_D() {

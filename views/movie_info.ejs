@@ -49,14 +49,19 @@
   </div>
   <div class="trailer_container">
     <div class="trailer_header">예고편</div>
-    <div class="trailer_list">
-      <div class="trailer_video_wrapper">
-
+    <div class="trailer-container">
+      <% videos.forEach((video, index) => { %>
+      <div class="trailer_wrapper">
+        <video controls key="<%= index %>">
+          <source src="<%= video.video_url %>" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="description"><%= video.description %></div>
       </div>
+      <% }); %>
     </div>
   </div>
   <div class="footer"></div>
-  </div>
 </body>
 
 </html>
