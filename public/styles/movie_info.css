@@ -60,14 +60,15 @@
   grid-gap: 20px;
 }
 
-.trailer-container video {
+.trailer-container img {
   width: 100%;
   object-fit: cover;
 }
 
-.trailer_wrapper.description {
+.trailer_wrapper .description {
   font-weight: 500;
   color: rgb(58, 58, 58);
+  text-decoration: none;
 }
 
 .footer {

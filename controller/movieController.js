@@ -20,10 +20,20 @@ exports.getMovieInfoPage = async function (req, res, next) {
 
 exports.getMovieTicketingPage = async function (req, res, next) {
   try {
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}-${
+      today.getMonth() + 1
+    }-${today.getDate()}`;
+
     const moviesSchedule = await movieService.getMovieScheduleByDate(
       req.query.date
     );
-    res.render("ticketing", { header: req.headerData, moviesSchedule });
+
+    res.render("ticketing", {
+      header: req.headerData,
+      today: formattedDate,
+      moviesSchedule,
+    });
   } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };

@@ -12,9 +12,9 @@ exports.getMovieSummaryList = async function () {
 
 exports.getMovieInfo = async function (title) {
   const movie = await movieModel.getMovieByTitle(title);
-  const videos = await movieVideoModel.getMovieVideos(title);
+  const trailers = await movieVideoModel.getMovieTrailers(title);
 
-  return { movie, videos };
+  return { movie, trailers };
 };
 
 function getToday_Y_M_D() {

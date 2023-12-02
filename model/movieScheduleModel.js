@@ -8,8 +8,8 @@ exports.getMovieScheduleByDate = async function (date) {
         title, 
         (SELECT age_limit FROM movies WHERE title = ms.title) AS age_limit,
         room_id, 
-        DATE_FORMAT(start_time, '%H:%i') AS start_time, 
-        DATE_FORMAT(end_time, '%H:%i') AS end_time, 
+        DATE_FORMAT(CONVERT_TZ(start_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS start_time,
+        DATE_FORMAT(CONVERT_TZ(end_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS end_time,
         ordered_seat_count 
       FROM movieSchedule ms 
       WHERE start_time BETWEEN ? AND ? 
