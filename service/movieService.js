@@ -36,9 +36,11 @@ function groupMoviesSchedule(moviesSchedule) {
 
   moviesSchedule.forEach((movie) => {
     const {
-      movie_time_id,
       title,
       age_limit,
+      running_time,
+      released_date,
+      movie_time_id,
       room_id,
       start_time,
       end_time,
@@ -53,6 +55,8 @@ function groupMoviesSchedule(moviesSchedule) {
       movieInfo = {
         title,
         age_limit,
+        running_time,
+        released_date,
         rooms: [],
       };
       groupedMovie.push(movieInfo);
