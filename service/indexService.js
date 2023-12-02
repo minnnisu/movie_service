@@ -7,6 +7,9 @@ exports.getMainPage = async function (id) {
 
   if (id !== undefined) {
     const user = await userModel.getUser(id);
+    if (user.length < 1) {
+      throw new Error("not_exsit_user_error");
+    }
     data["user"] = { is_login_status: true, name: user[0].name };
   } else {
     data["user"] = { is_login_status: false };

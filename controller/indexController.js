@@ -7,6 +7,14 @@ exports.getMainPage = async function (req, res, next) {
     res.render("index", { ...data });
   } catch (error) {
     console.log(error);
+    if (error instanceof Error || error.message === "not_exsit_user_error") {
+      return req.logout(function (err) {
+        if (err) {
+          return next(new HttpError(500, "예상치 못한 오류가 발생하였습니다."));
+        }
+        res.redirect("/");
+      });
+    }
     next(new HttpError(500, "server_error", { isShowErrPage: true }));
   }
 };

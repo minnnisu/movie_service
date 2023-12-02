@@ -29,23 +29,35 @@ exports.addNewUser = async function (userInfo) {
   const { id, hashedPassword, name, email, telephone } = userInfo;
 
   const connection = await pool.getConnection();
-  try {
-    await connection.beginTransaction();
+  const [rows] = await connection.query(
+    "INSERT INTO users(id, password, name, email, telephone) VALUES(?, ?, ?, ?, ?);",
+    [id, hashedPassword, name, email, telephone]
+  );
 
-    const [rows] = await connection.query(
-      "INSERT INTO users(id, password, name, email, telephone) VALUES(?, ?, ?, ?, ?);",
-      [id, hashedPassword, name, email, telephone]
-    );
+  connection.release();
 
-    console.log(rows);
+  return rows;
+};
 
-    await connection.commit();
-  } catch (err) {
-    await connection.rollback();
-    throw err;
-  } finally {
-    connection.release();
+exports.addNewGoogleUser = async function (userInfo) {
+  const { id, name, email } = userInfo;
+
+  const connection = await pool.getConnection();
+  let query = "";
+  let input = [];
+  if (email) {
+    query = "INSERT INTO users(id, name, email) VALUES(?, ?, ?);";
+    input = [id, name, email];
+  } else {
+    query = "INSERT INTO users(id, name) VALUES(?, ?);";
+    input = [id, name];
   }
+
+  const [rows] = await connection.query(query, input);
+
+  connection.release();
+
+  return rows;
 };
 
 exports.deleteUser = async function (userId) {

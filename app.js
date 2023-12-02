@@ -22,6 +22,7 @@ const userPageRouter = require("./api/routes/pages/userRouter");
 const moviePageRouter = require("./api/routes/pages/movieRouter");
 const indexPageRouter = require("./api/routes/pages/indexRouter");
 const paymentPageRouter = require("./api/routes/pages/paymentRouter");
+const googleAuthPageRouter = require("./api/routes/pages/googleAuthRouter");
 
 const app = express();
 const port = 8080;
@@ -57,6 +58,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/", indexPageRouter);
+app.use("/auth/google", googleAuthPageRouter);
 app.use("/user", userPageRouter);
 app.use("/movie", moviePageRouter);
 app.use("/payment", paymentPageRouter);

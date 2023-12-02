@@ -28,9 +28,12 @@
       <a href="">비밀번호 찾기</a>
       <a href="/signup">회원가입</a>
     </div>
-    <a id="custom-login-btn">
+    <form method="GET" action="/auth/google/callback">
+      <input id="google_login_btn" type="submit" name="" />
+    </form>
+    <!-- <a id="custom-login-btn">
       <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" />
-    </a>
+    </a> -->
   </section>
   <script>
     function submitForm(event) {
