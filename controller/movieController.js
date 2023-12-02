@@ -35,6 +35,7 @@ exports.getMovieTicketingPage = async function (req, res, next) {
       moviesSchedule,
     });
   } catch (err) {
+    console.log(err);
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
