@@ -8,7 +8,7 @@ exports.getMovieScheduleByDate = async function (date) {
         m.title, 
         m.age_limit,
         m.running_time,
-        DATE_FORMAT(CONVERT_TZ(m.released_date, 'UTC', 'Asia/Seoul'), '%Y-%m-%d') AS released_date,
+        DATE_FORMAT(CONVERT_TZ(m.released_date, 'UTC', 'Asia/Seoul'), '%Y.%m.%d') AS released_date,
         ms.movie_time_id,
         ms.room_id, 
         DATE_FORMAT(CONVERT_TZ(ms.start_time, 'UTC', 'Asia/Seoul'), '%H:%i') AS start_time,
