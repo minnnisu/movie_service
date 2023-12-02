@@ -3,101 +3,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('include/head') %>
-  <link rel="stylesheet" href="/styles/Ticketing.css" />
-  <title>예매</title>
+<link rel="stylesheet" href="/styles/Ticketing.css" />
+<title>예매</title>
 
-  <body>
-    <%- include('include/header') %>
-      <div class="container">
-        <div id="date-links-container">
+<body>
+  <%- include('include/header') %>
+  <div class="container">
+    <div id="date-links-container">
 
-        </div>
-        <% moviesSchedule.forEach(movieSchedule=> { %>
-          <div class="times">
-            <div class="movie_info">
-              <% if (movieSchedule.age_limit==='ALL' ) { %>
-                <img class="grade_img" src="/images/grade_all.png" alt="grade all">
-                <% } else if (movieSchedule.age_limit==='12' ) { %>
-                  <img class="grade_img" src="/images/grade_12.png" alt="grade 12">
-                  <% } else if (movieSchedule.age_limit==='15' ) { %>
-                    <img class="grade_img" src="/images/grade_15.png" alt="grade 15">
-                    <% } else if (movieSchedule.age_limit==='18' ) { %>
-                      <img class="grade_img" src="/images/grade_18.png" alt="grade 18">
-                      <% } %>
-                        <a href="/movie/movieDetail/<%= movieSchedule.title %>">
-                          <strong>
-                            <%= movieSchedule.title %>
-                          </strong>
-                        </a>
+    </div>
+    <% moviesSchedule.forEach(movieSchedule=> { %>
+    <div class="times">
+      <div class="movie_info">
+        <% if (movieSchedule.age_limit==='ALL' ) { %>
+        <img class="grade_img" src="/images/grade_all.png" alt="grade all">
+        <% } else if (movieSchedule.age_limit==='12' ) { %>
+        <img class="grade_img" src="/images/grade_12.png" alt="grade 12">
+        <% } else if (movieSchedule.age_limit==='15' ) { %>
+        <img class="grade_img" src="/images/grade_15.png" alt="grade 15">
+        <% } else if (movieSchedule.age_limit==='18' ) { %>
+        <img class="grade_img" src="/images/grade_18.png" alt="grade 18">
+        <% } %>
+        <a href="/movie/movieDetail/<%= movieSchedule.title %>">
+          <strong>
+            <%= movieSchedule.title %>
+          </strong>
+        </a>
+      </div>
+      <% movieSchedule.rooms.forEach(room=> { %>
+      <div class="info-room">상영관: <%= room.room_id %>
+      </div>
+      <ul>
+        <% room.schedules.forEach(schedule=> { %>
+        <li>
+          <a href="#<%= schedule.movie_time_id %>">
+            <div class="movie_start">시작시간: <%= schedule.start_time %>
             </div>
-            <% movieSchedule.rooms.forEach(room=> { %>
-              <div class="info-room">상영관: <%= room.room_id %>
-              </div>
-              <ul>
-                <% room.schedules.forEach(schedule=> { %>
-                  <li>
-                    <a href="#<%= schedule.movie_time_id %>">
-                      <div class="movie_start">시작시간: <%= schedule.start_time %>
-                      </div>
-                      <div class="movie_end">종료시간: <%= schedule.end_time %>
-                      </div>
-                      <div class="seat_count">좌석: <%= schedule.ordered_seat_count %> / 100</div>
-                    </a>
-                  </li>
-                  <% }) %>
-              </ul>
-              <% }) %>
-          </div>
-          <hr />
-          <% }) %>
-  </body>
+            <div class="movie_end">종료시간: <%= schedule.end_time %>
+            </div>
+            <div class="seat_count">좌석: <%= schedule.ordered_seat_count %> / 100</div>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+      <% }) %>
+    </div>
+    <hr />
+    <% }) %>
+</body>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  var currentDate = new Date();
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var currentDate = new Date();
 
-  for (var i = 0; i < 7; i++) {
-    var nextDate = new Date(currentDate);
-    nextDate.setDate(currentDate.getDate() + i);
-    var formattedDate = nextDate.toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric', weekday: 'short' });
+    for (var i = 0; i < 7; i++) {
+      var nextDate = new Date(currentDate);
+      nextDate.setDate(currentDate.getDate() + i);
+      var formattedDate = nextDate.toLocaleDateString('ko-KR', {
+        month: 'numeric',
+        day: 'numeric',
+        weekday: 'short'
+      });
 
-    var dateContainer = document.createElement('div');
-        dateContainer.classList.add('date-container');
+      var dateContainer = document.createElement('div');
+      dateContainer.classList.add('date-container');
 
-        var monthElement = document.createElement('div');
-        monthElement.classList.add('month');
-        monthElement.textContent = formattedDate.split(' ')[0].replace('.', '');
-        dateContainer.appendChild(monthElement);
+      var monthElement = document.createElement('div');
+      monthElement.classList.add('month');
+      monthElement.textContent = formattedDate.split(' ')[0].replace('.', '');
+      dateContainer.appendChild(monthElement);
 
-        var dayElement = document.createElement('div');
-        dayElement.classList.add('day');
-        dayElement.textContent = formattedDate.split(' ')[1].replace('.', '');
-        dateContainer.appendChild(dayElement);
+      var dayElement = document.createElement('div');
+      dayElement.classList.add('day');
+      dayElement.textContent = formattedDate.split(' ')[1].replace('.', '');
+      dateContainer.appendChild(dayElement);
 
-        var weekdayElement = document.createElement('div');
-        weekdayElement.classList.add('weekday');
-        weekdayElement.textContent = formattedDate.split(' ')[2].replace(/[\(\)]/g, '');
+      var weekdayElement = document.createElement('div');
+      weekdayElement.classList.add('weekday');
+      weekdayElement.textContent = formattedDate.split(' ')[2].replace(/[\(\)]/g, '');
 
-        if (weekdayElement.textContent === '토') {
-          weekdayElement.style.color = 'blue';
-        } else if (weekdayElement.textContent === '일') {
-          weekdayElement.style.color = 'red';
-        }
-
-        dateContainer.appendChild(weekdayElement);
-
-        var dateLink = document.createElement('a');
-        dateLink.href = "/movie/ticketing?date=" + nextDate.toISOString().split('T')[0];
-
-        if (window.location.search.includes('date=' + nextDate.toISOString().split('T')[0])) {
-          dateLink.classList.add('selected-date');
-        }
-
-        dateLink.appendChild(dateContainer);
-
-        document.getElementById('date-links-container').appendChild(dateLink);
+      if (weekdayElement.textContent === '토') {
+        weekdayElement.style.color = 'blue';
+      } else if (weekdayElement.textContent === '일') {
+        weekdayElement.style.color = 'red';
       }
-    });
-  </script>
+
+      dateContainer.appendChild(weekdayElement);
+
+      var dateLink = document.createElement('a');
+      dateLink.href = "/movie/ticketing?date=" + nextDate.toISOString().split('T')[0];
+
+      if (window.location.search.includes('date=' + nextDate.toISOString().split('T')[0])) {
+        dateLink.classList.add('selected-date');
+      }
+
+      dateLink.appendChild(dateContainer);
+
+      document.getElementById('date-links-container').appendChild(dateLink);
+    }
+  });
+</script>
 
 </html>

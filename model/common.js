@@ -5,7 +5,7 @@ exports.getpaymentCompleteInfoByOrderID = async function (orderId) {
 
   try {
     const [orderAndSchedule = rows] = await connection.query(
-      `SELECT title, room_id, DATE_FORMAT(start_time, '%Y-%m-%d %H:%i') AS start_time, DATE_FORMAT(end_time, '%Y-%m-%d %H:%i') AS end_time, price
+      `SELECT title, room_id, DATE_FORMAT(CONVERT_TZ(start_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS start_time, DATE_FORMAT(CONVERT_TZ(end_time, 'UTC', 'Asia/Seoul'), '%Y-%m-%d %H:%i') AS end_time, price
           FROM movieSchedule, (SELECT * FROM orders WHERE order_id = ?) orders 
           WHERE movieSchedule.movie_time_id = orders.movie_time_id;`,
       [orderId]
