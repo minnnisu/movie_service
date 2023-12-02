@@ -3,8 +3,11 @@ const HttpError = require("../error/HttpError");
 
 exports.getMovieInfoPage = async function (req, res, next) {
   try {
-    const movie = await movieService.getMovieByTitle(req.params.title);
-    res.render("movie_info.ejs", { movie });
+    const data = await movieService.getMovieInfoPage(
+      req.params.title,
+      req.user
+    );
+    res.render("movie_info.ejs", { ...data });
   } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
