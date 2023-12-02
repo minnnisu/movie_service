@@ -17,7 +17,6 @@ exports.getUser = async function (req, res, next) {
 
 exports.getOrderedList = async function (req, res, next) {
   try {
-    const header = await getHeader(req, res, next);
     const orderList = await userService.getOrderList(req.user);
     return res.render("order_list", { header: req.headerData, orderList });
   } catch (err) {

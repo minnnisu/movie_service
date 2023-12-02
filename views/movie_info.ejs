@@ -19,8 +19,17 @@
       <div class="sub_info">
         <ul>
           <li><%= movie[0].running_time %>분</li>
-          <li><%= movie[0].age_limit %>세</li>
-          <li>개봉일자: <%= movie[0].released_date %></li>
+          <li> <% if (movie[0].age_limit === 'ALL') { %>
+            <span>전체 관람가</span>
+            <% } else if (movie[0].age_limit === '12') { %>
+            <span>12세이상관람가</span>
+            <% } else if (movie[0].age_limit === '15') { %>
+            <span>15세이상관람가</span>
+            <% } else if (movie[0].age_limit === '18') { %>
+            <span>18세이상관람가</span>
+            <% } %>
+          </li>
+          <li><%= movie[0].released_date %> 개봉</li>
         </ul>
       </div>
       <p>1979년 12월 12일, 수도 서울 군사반란 발생
@@ -37,6 +46,16 @@
         오늘 밤, 대한민국 수도에서 가장 치열한 전쟁이 펼쳐진다!</p>
 
     </div>
+  </div>
+  <div class="trailer_container">
+    <div class="trailer_header">예고편</div>
+    <div class="trailer_list">
+      <div class="trailer_video_wrapper">
+
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
   </div>
 </body>
 
