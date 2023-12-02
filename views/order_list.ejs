@@ -1,29 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order List</title>
-    <link rel="stylesheet" href="/css/main.css" />
-  </head>
-  <body>
-    <h3>주문 목록</h3>
-    <div class="order-list">
-      <% for (let i = 0; i < orderList.length; i++) { %>
-        <div class="order-item">
-          <img src="<%= orderList[i].poster_image %>" width="200" alt="포스터" />
-          <div>
-            <p>예매 번호: <%= orderList[i].order_id %></p>
-            <p><%= orderList[i].title %></p>
-            <p>나이 제한: <%= orderList[i].age_limit %></p>
-            <p>상영 시간: <%= orderList[i].start_time %> - <%= orderList[i].end_time %></p>
-            <p>상영관: <%= orderList[i].room_id %>관</p>
-            <p>좌석: <%= orderList[i].seats %></p>
-            <p>좌석: <%= orderList[i].status %></p>
-          </div>
-        </div>
-        <hr />
-      <% } %>
+<%- include('include/head') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order List</title>
+</head>
+
+<body>
+  <%- include('include/header') %>
+  <h3>주문 목록</h3>
+  <div class="order-list">
+    <% for (let i = 0; i < orderList.length; i++) { %>
+    <div class="order-item">
+      <img src="<%= orderList[i].poster_image %>" width="200" alt="포스터" />
+      <div>
+        <p>예매 번호: <%= orderList[i].order_id %></p>
+        <p><%= orderList[i].title %></p>
+        <p>나이 제한: <%= orderList[i].age_limit %></p>
+        <p>상영 시간: <%= orderList[i].start_time %> - <%= orderList[i].end_time %></p>
+        <p>상영관: <%= orderList[i].room_id %>관</p>
+        <p>좌석: <%= orderList[i].seats %></p>
+        <button data-order-id="<%= orderList[i].order_id %>"><%= orderList[i].status %></button>
+      </div>
     </div>
-  </body>
+    <hr />
+    <% } %>
+  </div>
+</body>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 모든 버튼 가져오기
+    var buttons = document.querySelectorAll('button');
+
+    buttons.forEach(function(button) {
+      button.addEventListener('click', async function() {
+        // 버튼의 data 속성이나 다른 적절한 속성에서 주문 ID 추출
+        var orderId = button.getAttribute('data-order-id');
+
+        try {
+          // 주문 삭제를 위한 비동기 요청 보내기
+          var response = await fetch(`http://localhost:8080/api/order/${orderId}`, {
+            method: 'DELETE',
+          });
+
+          var data = await response.json();
+
+          if (!response.ok) {
+            return alert(data.message)
+          }
+
+          // 성공적인 응답 처리
+          return alert('예매가 성공적으로 취소되었습니다.');
+
+          // 선택적으로 UI를 업데이트하거나 필요한 경우 다른 작업 수행
+        } catch (error) {
+          // 오류 처리
+          return alert('주문 삭제 중 오류 발생:', error);
+        }
+      });
+    });
+  });
+</script>
+
+
 </html>

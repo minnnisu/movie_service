@@ -2,69 +2,65 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('include/head') %>
-  <link rel="stylesheet" href="/styles/ticket_styles.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <title>예매</title>
+<%- include('include/head') %>
+<link rel="stylesheet" href="/styles/ticket_styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<title>예매</title>
 
-  <body>
-    <%- include('include/header') %>
-    <div class="showtimes">
-      <div class="sect-schedule">
-        <div id="slider" class="slider">
-          <div class="item-wrap">
-            <ul class="item">
-              <% for (let i=0; i < 8; i++) { %>
-              <li class="<%= i === 0 ? 'on' : '' %>">
-                <div class="day">
-                  <a
-                    href="#"
-                    class="day-link"
-                    data-date="<%= moment().add(i, 'days').format('YYYY-MM-DD') %>"
-                  >
-                    <span class="month">
-                      <%= moment().add(i, 'days' ).format('MM') %>월
-                    </span>
-                    <span class="date">
-                      <%= moment().add(i, 'days' ).format('DD') %>
-                    </span>
-                    <span class="day-of-week">
-                      <%= moment().add(i, 'days' ).format('ddd') %>
-                    </span>
-                  </a>
-                </div>
-              </li>
-              <% } %>
-            </ul>
-          </div>
+<body>
+  <%- include('include/header') %>
+  <div class="showtimes">
+    <div class="sect-schedule">
+      <div id="slider" class="slider">
+        <div class="item-wrap">
+          <ul class="item">
+            <% for (let i=0; i < 8; i++) { %>
+            <li class="<%= i === 0 ? 'on' : '' %>">
+              <div class="day">
+                <a href="#" class="day-link" data-date="<%= moment().add(i, 'days').format('YYYY-MM-DD') %>">
+                  <span class="month">
+                    <%= moment().add(i, 'days' ).format('MM') %>월
+                  </span>
+                  <span class="date">
+                    <%= moment().add(i, 'days' ).format('DD') %>
+                  </span>
+                  <span class="day-of-week">
+                    <%= moment().add(i, 'days' ).format('ddd') %>
+                  </span>
+                </a>
+              </div>
+            </li>
+            <% } %>
+          </ul>
         </div>
       </div>
-      <div class="sect-showtimes">
-        <ul id="movieSchedule"></ul>
-      </div>
     </div>
+    <div class="sect-showtimes">
+      <ul id="movieSchedule"></ul>
+    </div>
+  </div>
 
-    <script>
-      function getMovieSchedule(selectedDate) {
-        fetch(`/getMovieSchedule?date=${selectedDate}`)
-          .then((response) => response.json())
-          .then((data) => {
-            updateMovieSchedule(data);
-          })
-          .catch((error) =>
-            console.error("Error fetching movie schedule:", error)
-          );
-      }
+  <script>
+    function getMovieSchedule(selectedDate) {
+      fetch(`/getMovieSchedule?date=${selectedDate}`)
+        .then((response) => response.json())
+        .then((data) => {
+          updateMovieSchedule(data);
+        })
+        .catch((error) =>
+          console.error("Error fetching movie schedule:", error)
+        );
+    }
 
-      function updateMovieSchedule(scheduleData) {
-        const movieScheduleElement = document.getElementById("movieSchedule");
-        movieScheduleElement.innerHTML = "";
+    function updateMovieSchedule(scheduleData) {
+      const movieScheduleElement = document.getElementById("movieSchedule");
+      movieScheduleElement.innerHTML = "";
 
-        const groupedMovies = groupMovies(scheduleData);
+      const groupedMovies = groupMovies(scheduleData);
 
-        for (const movieGroup of groupedMovies) {
-          const li = document.createElement("li");
-          li.innerHTML = `
+      for (const movieGroup of groupedMovies) {
+        const li = document.createElement("li");
+        li.innerHTML = `
             <div class="col-times">
               <div class="info-movie">
                 <i class="age${movieGroup[0]?.[0]?.age.replace(/\s+/g, "")}">${
@@ -118,68 +114,69 @@
               </div>
             </div>
             `;
-          movieScheduleElement.appendChild(li);
-        }
+        movieScheduleElement.appendChild(li);
       }
+    }
 
-      function groupMovies(movies) {
-        const grouped = {};
+    function groupMovies(movies) {
+      const grouped = {};
 
-        movies.forEach((movie) => {
-          const movieKey = movie.title;
-          const locationKey = movie.location;
+      movies.forEach((movie) => {
+        const movieKey = movie.title;
+        const locationKey = movie.location;
 
-          if (!grouped[movieKey]) {
-            grouped[movieKey] = {};
-          }
-
-          if (!grouped[movieKey][locationKey]) {
-            grouped[movieKey][locationKey] = [];
-          }
-
-          grouped[movieKey][locationKey].push(movie);
-        });
-
-        const result = [];
-
-        for (const movieKey in grouped) {
-          const movieGroup = [];
-          for (const locationKey in grouped[movieKey]) {
-            movieGroup.push(grouped[movieKey][locationKey]);
-          }
-          result.push(movieGroup);
+        if (!grouped[movieKey]) {
+          grouped[movieKey] = {};
         }
 
-        return result;
+        if (!grouped[movieKey][locationKey]) {
+          grouped[movieKey][locationKey] = [];
+        }
+
+        grouped[movieKey][locationKey].push(movie);
+      });
+
+      const result = [];
+
+      for (const movieKey in grouped) {
+        const movieGroup = [];
+        for (const locationKey in grouped[movieKey]) {
+          movieGroup.push(grouped[movieKey][locationKey]);
+        }
+        result.push(movieGroup);
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const firstDayButton = document.querySelector(".day-link");
-        firstDayButton.click();
+      return result;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const firstDayButton = document.querySelector(".day-link");
+      firstDayButton.click();
+    });
+
+    document.querySelectorAll(".day-link").forEach((dayButton) => {
+      dayButton.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        document
+          .querySelectorAll(".day-link")
+          .forEach((btn) => btn.classList.remove("selected"));
+
+        this.classList.add("selected");
+
+        document
+          .querySelectorAll(".day-link")
+          .forEach((btn) => (btn.style.backgroundColor = "#ddd"));
+
+        this.style.backgroundColor = "rgb(255, 251, 0)";
+
+        const selectedDate = this.dataset.date;
+        getMovieSchedule(selectedDate);
+
+        window.location.href = "/ticket#" + selectedDate;
       });
+    });
+  </script>
+</body>
 
-      document.querySelectorAll(".day-link").forEach((dayButton) => {
-        dayButton.addEventListener("click", function (event) {
-          event.preventDefault();
-
-          document
-            .querySelectorAll(".day-link")
-            .forEach((btn) => btn.classList.remove("selected"));
-
-          this.classList.add("selected");
-
-          document
-            .querySelectorAll(".day-link")
-            .forEach((btn) => (btn.style.backgroundColor = "#ddd"));
-
-          this.style.backgroundColor = "rgb(255, 251, 0)";
-
-          const selectedDate = this.dataset.date;
-          getMovieSchedule(selectedDate);
-
-          window.location.href = "/ticket#" + selectedDate;
-        });
-      });
-    </script>
-  </body>
 </html>

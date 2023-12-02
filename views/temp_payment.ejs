@@ -14,45 +14,50 @@
 
   <script>
     // 비동기 요청을 수행하는 함수
-    function sendOrderData() {
+    async function sendOrderData() {
       // 예약 데이터 가져오기
       var data = {
-        "movie_time_id": 7,
+        "movie_time_id": 10,
         "seat_name_list": [{
-            "seat_row": "C",
-            "seat_col": 3
+            "seat_row": "D",
+            "seat_col": 1
           },
           {
-            "seat_row": "C",
-            "seat_col": 4
+            "seat_row": "D",
+            "seat_col": 2
+          },
+          {
+            "seat_row": "D",
+            "seat_col": 3
           }
         ],
         "person_type": {
           "teenager": 0,
           "adult": 2,
-          "senior": 0
+          "senior": 1
         }
       };
 
-      // fetch를 사용하여 AJAX 요청 수행
-      fetch('http://localhost:8080/api/payment/ticket', {
+      try {
+        const response = await fetch('http://localhost:8080/api/payment/ticket', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
         })
-        .then(function(response) {
-          // 응답 처리
-          if (!response.ok) {
-            throw new Error('네트워크 응답이 실패하였습니다.');
-          }
-          alert('예약이 성공적으로 완료되었습니다.');
-        })
-        .catch(function(error) {
-          // 오류 처리
-          console.error('오류 발생:', error.message);
-        });
+
+        if (!response.ok) {
+          const error = await response.json()
+          return alert(error.message)
+        }
+
+        alert('예약이 성공적으로 완료되었습니다.');
+      } catch (error) {
+        alert(error.message)
+      }
+
+
     }
   </script>
 

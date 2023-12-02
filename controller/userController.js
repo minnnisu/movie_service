@@ -4,7 +4,7 @@ const userService = require("../service/userService");
 exports.getUser = async function (req, res, next) {
   try {
     const user = await userService.getUser(req.user);
-    return res.render("my_page", { user });
+    return res.render("my_page", { header: req.headerData, user });
   } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
@@ -17,8 +17,9 @@ exports.getUser = async function (req, res, next) {
 
 exports.getOrderedList = async function (req, res, next) {
   try {
+    const header = await getHeader(req, res, next);
     const orderList = await userService.getOrderList(req.user);
-    return res.render("order_list", { orderList });
+    return res.render("order_list", { header: req.headerData, orderList });
   } catch (err) {
     console.log(err);
     if (err instanceof HttpError) {

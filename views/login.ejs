@@ -28,12 +28,9 @@
       <a href="">비밀번호 찾기</a>
       <a href="/signup">회원가입</a>
     </div>
-    <form method="GET" action="/auth/google/callback">
-      <input id="google_login_btn" type="submit" name="" />
-    </form>
-    <!-- <a id="custom-login-btn">
-      <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" />
-    </a> -->
+    <div id="google_login_btn" onclick="callbackGoogleAuth()">
+      <img src="/images/web_dark_sq_SI@4x.png" alt="구글 로그인">
+    </div>
   </section>
   <script>
     function submitForm(event) {
@@ -92,6 +89,10 @@
         return (window.location.href = "/");
 
       }
+    }
+
+    function callbackGoogleAuth() {
+      window.location.href = "/auth/google/callback"
     }
   </script>
 </body>

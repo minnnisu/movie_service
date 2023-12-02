@@ -5,18 +5,13 @@ const movieScheduleModel = require("../model/movieScheduleModel");
 const orderedSeatModel = require("../model/orderedSeatModel");
 const HttpError = require("../error/HttpError");
 
-exports.getMovieInfoPage = async function (title, id) {
-  const data = {};
-  if (id !== undefined) {
-    const user = await userModel.getUser(id);
-    data["user"] = { is_login_status: true, name: user[0].name };
-  } else {
-    data["user"] = { is_login_status: false };
-  }
+exports.getMovieSummaryList = async function () {
+  const movies = await movieModel.getMoviesSummary();
+  return movies;
+};
 
-  data["movie"] = await movieModel.getMovieByTitle(title);
-
-  return data;
+exports.getMovieInfo = async function (title) {
+  return await movieModel.getMovieByTitle(title);
 };
 
 function getToday_Y_M_D() {

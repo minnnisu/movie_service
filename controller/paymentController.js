@@ -1,5 +1,6 @@
 const HttpError = require("../error/HttpError");
 const paymentService = require("../service/paymentService");
+const userController = require("../controller/userController");
 
 exports.payMovieTicket = async function (req, res, next) {
   const info = { ...req.body, user_id: req.user };
@@ -22,9 +23,13 @@ exports.getPaymentCompletePage = async function (req, res, next) {
       req.query.order_id
     );
 
+    const header = await userController.getHeader();
+
     // 결제가 완료된 경우 세션을 초기화하고 페이지를 표시
     req.session.paymentComplete = false;
-    return res.status(201).render("payment_complete", { orderInfo });
+    return res
+      .status(201)
+      .render("payment_complete", { header: req.headerData, orderInfo });
   } catch (error) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };

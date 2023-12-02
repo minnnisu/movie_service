@@ -6,9 +6,9 @@
     <!-- 사용자 메뉴 -->
     <ul>
       <li><a href="/">영화</a></li>
-      <li><a href="/movie/Ticketing">예매</a></li>
-      <% if (user && user.is_login_status) { %>
-      <li><a href="/user/profile"><%= user.name %></a></li>
+      <li><a href="/movie/ticketing">예매</a></li>
+      <% if (header && header.user && header.user.is_login_status) { %>
+      <li><a href="/user/profile"><%= header.user.name %></a></li>
       <li onclick="logout()">로그아웃</li>
       <% } else { %>
       <li><a href="/login">로그인</a></li>

@@ -102,17 +102,13 @@
   text-decoration: none;
 }
 
-#custom-login-btn {
-  width: 28.5rem;
-  height: 4.375rem;
+#google_login_btn {
   flex-shrink: 0;
   cursor: pointer;
 }
 
-#google_login_btn {
-  background: url("/images/web_light_sq_SU@2x.png") no-repeat;
-  background-size: 100% 100%;
+#google_login_btn img {
+  width: 300px;
+  flex-shrink: 0;
   cursor: pointer;
-  width: 200px;
-  height: 50px;
 }

@@ -23,6 +23,8 @@ const moviePageRouter = require("./api/routes/pages/movieRouter");
 const indexPageRouter = require("./api/routes/pages/indexRouter");
 const paymentPageRouter = require("./api/routes/pages/paymentRouter");
 const googleAuthPageRouter = require("./api/routes/pages/googleAuthRouter");
+const userController = require("./controller/userController");
+const { getHeaderData } = require("./api/middleware/headerMiddleware");
 
 const app = express();
 const port = 8080;
@@ -67,18 +69,22 @@ app.use("/api/payment", paymentApiRouter);
 app.use("/api/order", orderApiRouter);
 app.use("/api/user", userApiRouter);
 
-app.use(function (req, res, next) {
-  res.status(404).render("error404");
+app.use(getHeaderData);
+
+app.use(async function (req, res, next) {
+  res.status(404).render("error404", { header: req.headerData });
 });
 
-app.use((err, req, res, next) => {
+app.use(async (err, req, res, next) => {
   console.error(err);
+
   if (err instanceof HttpError) {
     if (
       err.option?.isShowErrPage === true &&
       err.option?.isShowCustomeMsg === true
     ) {
       return res.status(err.status).render("error.ejs", {
+        header: req.headerData,
         err_code: err.status,
         err_msg: err.option.CustomeMsg,
       });
@@ -86,6 +92,7 @@ app.use((err, req, res, next) => {
 
     if (err.option?.isShowErrPage === true) {
       return res.status(err.status).render("error.ejs", {
+        header: req.headerData,
         err_code: err.status,
         err_msg: err.message,
       });
