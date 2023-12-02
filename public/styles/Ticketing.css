@@ -1,113 +1,86 @@
-.reserve-container {
-  margin-top: 20px;
+.container {
+  margin: auto;
+  margin-top: 1rem;
+  padding: 1.875rem;
+  width: 60%;
+  align-items: center;
+}
+
+#date-links-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  height: 800px;
-  /* border: 1px solid #dddddd; */
+  margin-bottom: 1rem;
 }
 
-.reserve-container > div {
-  border: 1px solid #dddddd;
+#date-links-container a {
+  text-decoration-line: none;
+  margin: 0rem 0.9rem 0rem;
+  
 }
 
-.reserve-title {
-  border-bottom: 1px solid #dddddd;
-  background-color: #444444;
-  text-align: center;
-  color: #dddddd;
-  padding: 5px;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.movie-part {
-  width: 284px;
-}
-
-.theater-part {
-  width: 264px;
-}
-
-.day-part {
-  width: 91px;
-}
-
-.time-part {
-  width: 384px;
-}
-
-.sort-wrapper {
-  margin: 10px 6px 6px 10px;
-  /* padding: 3px; */
-  display: flex;
-  border-bottom: 1px solid #dddddd;
-  font-size: 12px;
-}
-
-.sort-wrapper > div {
-  padding: 3px;
-}
-
-.sort-wrapper > div:hover {
-  border-bottom: 1px solid #111111;
-}
-
-.sort-selected {
-  font-weight: bold;
-  border-bottom: 1px solid #111111;
-}
-
-.sort-korean {
-  margin-left: 6px;
-}
-
-.reserve-date {
-  padding-top: 5px;
+.date-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 770px;
-  overflow: scroll;
-  overflow-x: hidden;
+  margin: 10px;
+  text-decoration: none;
+  color: inherit;
 }
 
-.movie-date-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 2px;
-}
-
-.movie-week-of-day {
-  margin-left: 5px;
-  font-size: 10px;
-  width: 12px;
-  height: 22px;
-  line-height: 22px;
-}
-
-.movie-day {
-  text-align: center;
-  width: 34px;
-  height: 22px;
-  font-size: 17px;
+.month {
+  font-size: 1.2em;
   font-weight: bold;
+  color: #000000;
 }
 
-.saturday {
-  color: #31597e;
-  font-weight: bold;
+.day {
+  font-size: 1.5em;
+  color: #000000;
 }
 
-.sunday {
-  color: #af2d2d;
-  font-weight: bold;
+.date-container .weekday {
+  text-transform: uppercase;
+  color: #000000;
 }
 
-.movie-date-wrapper-active {
-  background-color: #333333;
+.selected-date {
+  border: 2px solid #000000;
+  border-radius: 5px;
 }
 
-.movie-date-wrapper-active > * {
-  color: white;
+.grade_img {
+  margin-right: 5px;
+  width: 25px;
+  height: 25px;
+}
+
+.times li {
+  display: inline-block;
+  margin-right: 0.938rem;
+}
+
+.times li a {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  padding: 0.625rem;
+  border-radius: 0.313rem;
+  border: 2px solid #000000;
+}
+
+.movie_info {
+  margin-bottom: 1.5rem;
+}
+
+.movie_info strong{
+  font-size: 23px;
+}
+
+.movie_info a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.times {
 }
