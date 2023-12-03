@@ -17,6 +17,7 @@ exports.getMovieScheduleByDate = async function (date) {
       FROM movieSchedule ms, movies m
       WHERE 
         ms.title = m.title AND 
+        start_time > NOW() AND
         start_time BETWEEN ? AND ? 
       ORDER BY title, room_id, start_time;`,
       [`${date} 00:00`, `${date} 23:59`]

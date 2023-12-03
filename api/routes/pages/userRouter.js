@@ -14,7 +14,7 @@ router.get(
 );
 
 router.get(
-  "/profile/update",
+  "/update",
   authMiddleware.isLoginStatusClosure({
     isShowErrPage: true,
   }),

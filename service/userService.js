@@ -22,10 +22,19 @@ exports.getOrderList = async function (id) {
   return orderList;
 };
 
+exports.getLatestOrderList = async function (id) {
+  const orderList = await common.getLatestOrderInfoByUserID(id);
+  return orderList;
+};
+
 exports.updateUser = async function (userId, info) {
   const { name, email, telephone } = info;
   if (name === undefined || email === undefined || telephone === undefined) {
     throw new HttpError(400, "not_contain_nessary_body");
+  }
+
+  if (name.trim() === "") {
+    throw new HttpError(404, "not_valid_name_error");
   }
 
   const user = await userModel.getUser(userId);

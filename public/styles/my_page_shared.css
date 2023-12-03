@@ -1,0 +1,92 @@
+body {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  width: 70%;
+  margin: 0 auto;
+  color: #424242;
+}
+
+.info_container {
+  padding: 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content: start;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.nav_button {
+  border-radius: 10px 10px 0 0;
+  margin-right: 10px;
+  padding: 15px;
+}
+
+.nav_button.select {
+  background-color: #ffe2e2;
+  box-shadow: 1px -1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+
+.nav_button a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #383838;
+}
+
+.content {
+  display: flex;
+  background-color: #ffe2e2;
+  border-radius: 0 10px 10px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.content .header {
+  font-size: 1.3em;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.movie_title_wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.movie_title_wrapper .movie-title {
+  margin-left: 5px;
+  color: #2e2e2e;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap; /* 글자를 여러 줄로 강제로 바꾸지 않음 */
+  overflow: hidden; /* 넘친 부분을 숨김 */
+  text-overflow: ellipsis; /* 넘친 부분에 "..."을 표시 */
+  max-width: calc(12rem - 27px);
+}
+
+.movie_title_wrapper .movie-title:hover {
+  color: #535353;
+}
+
+.user_modify_btn_wrapper .btn {
+  display: inline-block; /* Fix typo in 'flexbox' */
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #f18d8d;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}

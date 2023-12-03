@@ -31,9 +31,10 @@ exports.getPaymentCompletePage = async function (req, res, next) {
       .status(201)
       .render("payment_complete", { header: req.headerData, orderInfo });
   } catch (error) {
-    if (err instanceof HttpError) {
+    console.log(error);
+    if (error instanceof HttpError) {
       err.option = { isShowErrPage: true };
-      return next(err);
+      return next(error);
     }
 
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));

@@ -4,8 +4,10 @@ const userService = require("../service/userService");
 exports.getUser = async function (req, res, next) {
   try {
     const user = await userService.getUser(req.user);
-    return res.render("my_page", { header: req.headerData, user });
+    const orderList = await userService.getLatestOrderList(req.user);
+    return res.render("my_page", { header: req.headerData, user, orderList });
   } catch (err) {
+    console.log(err);
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
@@ -33,7 +35,29 @@ exports.getOrderedList = async function (req, res, next) {
 exports.updateUserPage = async function (req, res, next) {
   try {
     const user = await userService.getUser(req.user);
-    return res.render("user_update_page", { header: req.headerData, user });
+    const orderList = await userService.getLatestOrderList(req.user);
+    return res.render("user_update_page", {
+      header: req.headerData,
+      user,
+      orderList,
+    });
+  } catch (err) {
+    if (err instanceof HttpError) {
+      err.option = { isShowErrPage: true };
+      return next(err);
+    }
+
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
+  }
+};
+
+exports.deleteUserPage = async function (req, res, next) {
+  try {
+    const user = await userService.getUser(req.user);
+
+    return res.render("user_delete_page", {
+      header: req.headerData,
+    });
   } catch (err) {
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
