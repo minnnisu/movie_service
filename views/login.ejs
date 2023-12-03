@@ -4,16 +4,6 @@
   <link rel="stylesheet" href="/styles/login_styles.css" />
   <title>로그인</title>
 
-<<<<<<< HEAD
-<body>
-  <%- include('include/header') %>
-  <section class="login-form">
-    <img id="logo" src="/logo/logo.png">
-    <form action="">
-      <div class="int-area">
-        <input type="text" name="id" id="id" autocomplete="off" required />
-        <label for="id">아이디</label>
-=======
   <body>
     <%- include('include/header') %>
     <section class="login-form">
@@ -43,31 +33,14 @@
         <a href="">아이디 찾기</a>
         <a href="">비밀번호 찾기</a>
         <a href="/signup">회원가입</a>
->>>>>>> b1ebc3ba9de187f865ceb4977bc3f078ac970336
       </div>
       <div id="google_login_btn" onclick="callbackGoogleAuth()">
         <img src="/images/web_dark_sq_SI@4x.png" alt="구글 로그인" />
       </div>
-<<<<<<< HEAD
-      <div class="btn-area">
-        <button id="btn" type="submit" onclick="submitForm(event)">
-          로그인
-        </button>
-      </div>
-    </form>
-    <div id="google_login_btn" onclick="callbackGoogleAuth()">
-      <img src="/images/web_dark_sq_SI@4x.png" alt="구글 로그인">
-    </div>
-  </section>
-  <script>
-    function submitForm(event) {
-      event.preventDefault();
-=======
     </section>
     <script>
       function submitForm(event) {
         event.preventDefault();
->>>>>>> b1ebc3ba9de187f865ceb4977bc3f078ac970336
 
         var nameValue = document.getElementById("id").value;
         var pwValue = document.getElementById("pw").value;
