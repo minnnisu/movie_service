@@ -12,6 +12,16 @@ router.get(
   headerMiddleware.getHeaderData,
   userController.getUser
 );
+
+router.get(
+  "/profile/update",
+  authMiddleware.isLoginStatusClosure({
+    isShowErrPage: true,
+  }),
+  headerMiddleware.getHeaderData,
+  userController.updateUserPage
+);
+
 router.get(
   "/orderList",
   authMiddleware.isLoginStatusClosure({

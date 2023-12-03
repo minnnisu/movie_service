@@ -30,6 +30,20 @@ exports.getOrderedList = async function (req, res, next) {
   }
 };
 
+exports.updateUserPage = async function (req, res, next) {
+  try {
+    const user = await userService.getUser(req.user);
+    return res.render("user_update_page", { header: req.headerData, user });
+  } catch (err) {
+    if (err instanceof HttpError) {
+      err.option = { isShowErrPage: true };
+      return next(err);
+    }
+
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
+  }
+};
+
 exports.updateUser = async function (req, res, next) {
   try {
     await userService.updateUser(req.user, req.body);
