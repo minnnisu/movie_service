@@ -17,7 +17,7 @@ function checkPatterndValid(patternCheckList) {
   return { isValid: true, message: null };
 }
 
-exports.signup = async function (body) {
+async function signup(body) {
   if (
     body.id === undefined ||
     body.password === undefined ||
@@ -63,9 +63,9 @@ exports.signup = async function (body) {
   const hashedPassword = await bcrypt.hash(password, 12); //hash(패스워드, salt횟수)
 
   await userModel.addNewUser({ id, hashedPassword, name, email, telephone });
-};
+}
 
-exports.checkId = async function (id) {
+async function checkId(id) {
   if (id === undefined) {
     throw new HttpError(400, "not_contain_nessary_body");
   }
@@ -73,4 +73,6 @@ exports.checkId = async function (id) {
   if (await userModel.checkIdDuplication(id)) {
     throw new HttpError(409, "id_duplication_error");
   }
-};
+}
+
+module.exports = { checkPatterndValid, signup, checkId };

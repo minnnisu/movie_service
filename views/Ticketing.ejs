@@ -29,6 +29,8 @@
                             <%= movieSchedule.title %>
                           </strong>
                         </a>
+        <span><%= movieSchedule.running_time %>분</span>
+        <span><%= movieSchedule.released_date %></span>
             </div>
             <% movieSchedule.rooms.forEach(room=> { %>
               <div class="info-room">
