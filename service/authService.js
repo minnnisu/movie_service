@@ -29,7 +29,16 @@ async function signup(body) {
     throw new HttpError(400, "not_contain_nessary_body");
   }
 
-  const { id, password, checkedPassword, name, email, telephone } = body;
+  const { name, email, telephone } = body;
+
+  const id = body.id.trim();
+  const password = body.password.trim();
+  const checkedPassword = body.checkedPassword.trim();
+  console.log(password);
+
+  if (id === "") {
+    throw new HttpError(400, "not_vaild_id_error");
+  }
 
   if (await userModel.checkIdDuplication(id))
     throw new HttpError(409, "id_duplication_error");
@@ -70,7 +79,12 @@ async function checkId(id) {
     throw new HttpError(400, "not_contain_nessary_body");
   }
 
-  if (await userModel.checkIdDuplication(id)) {
+  console.log(id.trim());
+  if (id.trim() === "") {
+    throw new HttpError(400, "not_vaild_id_error");
+  }
+
+  if (await userModel.checkIdDuplication(id.trim())) {
     throw new HttpError(409, "id_duplication_error");
   }
 }
