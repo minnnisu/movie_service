@@ -4,7 +4,6 @@ const google = require("./googleStrategy");
 
 module.exports = () => {
   passport.serializeUser(function (user, cb) {
-    console.log(user);
     process.nextTick(function () {
       cb(null, user.id); // sessiond에 user.id 저장
     });

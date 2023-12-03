@@ -60,6 +60,26 @@ exports.addNewGoogleUser = async function (userInfo) {
   return rows;
 };
 
+exports.updateUser = async function (userId, info) {
+  const { name, email, telephone } = info;
+
+  const connection = await pool.getConnection();
+  const [rows] = await connection.query(
+    `
+        UPDATE users 
+        SET 
+          name = ?,
+          email = ?,
+          telephone = ?
+        WHERE id = ?`,
+    [name, email, telephone, userId]
+  );
+
+  connection.release();
+
+  return rows;
+};
+
 exports.deleteUser = async function (userId) {
   const connection = await pool.getConnection();
   try {

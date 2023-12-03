@@ -30,6 +30,15 @@ exports.getOrderedList = async function (req, res, next) {
   }
 };
 
+exports.updateUser = async function (req, res, next) {
+  try {
+    await userService.updateUser(req.user, req.body);
+    res.status(201).json({ message: "Successfully update user!" });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 exports.deleteUser = async function (req, res, next) {
   try {
     await userService.deleteUser(req.user);
@@ -40,6 +49,7 @@ exports.deleteUser = async function (req, res, next) {
       res.status(201).json({ message: "Successfully delete user!" });
     });
   } catch (error) {
-    return next(err);
+    console.error(error);
+    return next(error);
   }
 };

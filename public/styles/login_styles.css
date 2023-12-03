@@ -43,11 +43,15 @@
   display: block;
   width: 100%;
   padding: 40px 10px 10px;
-  background-color: transparent;
+  background-color: #fff;
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid black;
   font-size: 18px;
+  outline: none;
+}
+
+.int-area input:focus {
   outline: none;
 }
 
