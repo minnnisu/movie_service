@@ -7,7 +7,7 @@
 <body>
   <%- include('include/header') %>
   <section class="login-form">
-    <h1>Dongguk Theater</h1>
+    <img id="logo" src="/logo/logo.png">
     <form action="">
       <div class="int-area">
         <input type="text" name="id" id="id" autocomplete="off" required />
@@ -23,11 +23,6 @@
         </button>
       </div>
     </form>
-    <div class="caption">
-      <a href="">아이디 찾기</a>
-      <a href="">비밀번호 찾기</a>
-      <a href="/signup">회원가입</a>
-    </div>
     <div id="google_login_btn" onclick="callbackGoogleAuth()">
       <img src="/images/web_dark_sq_SI@4x.png" alt="구글 로그인">
     </div>

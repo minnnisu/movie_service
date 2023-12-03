@@ -1,6 +1,6 @@
 section {
     margin: auto;
-    margin-top: 20px;
+    margin-top: 3rem;
     display: flex;
     width: 32.6875rem;
     flex-direction: column;
@@ -9,12 +9,15 @@ section {
 }
 
 label {
-    width: 4.8125rem;
+    width: 6.8125rem;
     color: #000;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: 10px;
+    display: inline-block;
+
 }
 
 input {
@@ -23,6 +26,8 @@ input {
     flex-shrink: 0;
     border-radius: 0.625rem;
     border: 1px solid #9a9a9a;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 button {
@@ -44,6 +49,7 @@ button {
     background: #e28282;
     color: #fff;
     font-size: 1.25rem;
+    margin-top: 1.25rem;
 }
 
 #check {
@@ -56,4 +62,13 @@ button {
     background: #d1d1d1;
     color: #000;
     font-size: 0.9rem;
+}
+
+#input_email {
+    display: flex;
+    flex-direction: column;
+}
+
+#emailError {
+    width: 15rem;
 }

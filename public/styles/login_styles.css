@@ -6,10 +6,6 @@
   border-radius: 6px;
   text-align: center;
 }
-.login-form h1 {
-  font-size: 30px;
-  margin-bottom: 50px;
-}
 
 .int-area {
   padding-left: 2rem;
@@ -90,19 +86,8 @@
   cursor: pointer;
 }
 
-.caption {
-  margin-top: 2rem;
-  padding: 0;
-}
-
-.caption a {
-  padding: 0 20px 0 30px;
-  font-size: 16px;
-  color: blue;
-  text-decoration: none;
-}
-
 #google_login_btn {
+  margin-top: 2rem;
   flex-shrink: 0;
   cursor: pointer;
 }
@@ -111,4 +96,8 @@
   width: 300px;
   flex-shrink: 0;
   cursor: pointer;
+}
+
+#logo {
+  width : 230px;
 }
