@@ -91,12 +91,11 @@
         var dateLink = document.createElement('a');
         dateLink.href = "/movie/ticketing?date=" + formattedDate;
 
-        if (window.location.href === 'http://localhost:8080/movie/ticketing' && i===0 ){
+       if (window.location.href === 'http://localhost:8080/movie/ticketing' && i===0 ){
           dateLink.classList.add('selected-date');
         } else if (window.location.search.includes('date=' + formattedDate)) {
           dateLink.classList.add('selected-date');
         }
-
         dateLink.innerHTML = '<div class="date-container"><div class="month">' + month + '</div><div class="day">' + day + '</div><div class="weekday" style="color: ' + (weekdayElement.textContent === '토' ? 'blue' : (weekdayElement.textContent === '일' ? 'red' : '')) + ';">' + weekdayElement.textContent + '</div></div>';
 
         document.getElementById('date-links-container').appendChild(dateLink);
