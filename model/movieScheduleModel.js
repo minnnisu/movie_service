@@ -35,7 +35,15 @@ exports.getMovieScheduleByMovieTimeId = async function (movieTimeId) {
   const connection = await pool.getConnection();
   try {
     const [rows] = await connection.query(
-      `SELECT * FROM movieSchedule WHERE movie_time_id = ?`,
+      `SELECT  
+        movie_time_id, 
+        title, 
+        room_id, 
+        DATE_FORMAT(CONVERT_TZ(start_time, 'UTC', 'Asia/Seoul'), '%Y.%m.%d %H:%i') AS start_time,
+        DATE_FORMAT(CONVERT_TZ(end_time, 'UTC', 'Asia/Seoul'), '%Y.%m.%d %H:%i') AS end_time,
+        ordered_seat_count
+      FROM movieSchedule 
+      WHERE movie_time_id = ?`,
       [movieTimeId]
     );
     return rows;

@@ -23,14 +23,6 @@
 
     <button onclick="ApplyNumOfPerson()">적용하기</button>
   </div>
-
-  <div id="total-display">
-    <h2>총 예매 인원 및 가격</h2>
-    <p id="total-adults">성인: 0명</p>
-    <p id="total-teenagers">청소년: 0명</p>
-    <p id="total-seniors">노인: 0명</p>
-    <p id="total-price">총 가격: 0원</p>
-  </div>
   <div id="seat-wrapper"></div>
 
   <div class="custom-card">
@@ -48,10 +40,12 @@
 
     <div class="flex items-center justify-between mb-4">
       <span class="font-medium">Total:</span>
-      <span class="text-gray-600 dark:text-gray-400">$30</span>
+      <p id="total-adults">성인: 0명</p>
+      <p id="total-teenagers">청소년: 0명</p>
+      <p id="total-seniors">노인: 0명</p>
+      <p id="total-price">총 가격: 0원</p>
     </div>
-
-    <button class="custom-button">Confirm Selection</button>
+    <button onclick="payTicket()">결제하기</button>
   </div>
   <script src="/js/script.js"></script>
 </body>

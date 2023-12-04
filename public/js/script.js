@@ -210,22 +210,30 @@ function clickSeatButton(seat) {
   seat.seatClass.clickSeat(seat);
 }
 
-function ApplyNumOfPerson() {
-  // 인원 및 가격 정보 가져오기
-  var adultsCount = parseInt(document.getElementById("adults").value);
-  var teenagersCount = parseInt(document.getElementById("teenagers").value);
-  var seniorsCount = parseInt(document.getElementById("seniors").value);
-
+function getPrice() {
   // 가격 설정
-  var adultPrice = 15000;
-  var teenagerPrice = 13000;
-  var seniorPrice = 11000;
+  const adultPrice = 15000;
+  const teenagerPrice = 13000;
+  const seniorPrice = 11000;
+
+  const adultsCount = parseInt(document.getElementById("adults").value);
+  const teenagersCount = parseInt(document.getElementById("teenagers").value);
+  const seniorsCount = parseInt(document.getElementById("seniors").value);
 
   // 총 인원 및 가격 계산
-  var totalAdults = adultsCount * adultPrice;
-  var totalTeenagers = teenagersCount * teenagerPrice;
-  var totalSeniors = seniorsCount * seniorPrice;
-  var totalPrice = totalAdults + totalTeenagers + totalSeniors;
+  const totalAdults = adultsCount * adultPrice;
+  const totalTeenagers = teenagersCount * teenagerPrice;
+  const totalSeniors = seniorsCount * seniorPrice;
+  const totalPrice = totalAdults + totalTeenagers + totalSeniors;
+
+  return { totalAdults, totalTeenagers, totalSeniors, totalPrice };
+}
+
+function ApplyNumOfPerson() {
+  // 인원 및 가격 정보 가져오기
+  const adultsCount = parseInt(document.getElementById("adults").value);
+  const teenagersCount = parseInt(document.getElementById("teenagers").value);
+  const seniorsCount = parseInt(document.getElementById("seniors").value);
 
   if (numOfCustomer > adultsCount + teenagersCount + seniorsCount) {
     for (const selectedSeat of selectedSeats) {
@@ -238,6 +246,8 @@ function ApplyNumOfPerson() {
   }
 
   numOfCustomer = adultsCount + teenagersCount + seniorsCount;
+
+  const { totalAdults, totalTeenagers, totalSeniors, totalPrice } = getPrice();
 
   // 결과를 화면에 표시
   document.getElementById("total-adults").innerText =
@@ -277,18 +287,28 @@ function getPaymentData() {
 
   for (const selectedSeat of selectedSeats) {
     const [seat_row, seat_col] = selectedSeat.split("-");
-    seat_name_list.push({ seat_row, seat_col });
+    seat_name_list.push({ r: seat_row, c: seat_col });
   }
 
-  console.log({
-    movie_time_id: queryParams.get("movie_time_id"),
-    seat_name_list,
-    person_type: { teenager, adult, senior },
-  });
-
   return {
-    movie_time_id: queryParams.get("movie_time_id"),
-    seat_name_list,
-    person_type: { teenager, adult, senior },
+    mid: queryParams.get("movie_time_id"),
+    snl: seat_name_list,
+    pt: { t: teenager, a: adult, s: senior },
+    p: getPrice().totalPrice,
   };
+}
+
+function payTicket() {
+  try {
+    const data = getPaymentData();
+    const paymentJson = encodeURIComponent(JSON.stringify(data));
+
+    window.location.href = `/payment?data=${paymentJson}`;
+  } catch (error) {
+    if (error.message === "not_vaild_person_seat_error") {
+      return alert("인원 수와 선택한 좌석의 수가 다릅니다.");
+    }
+
+    return alert("결제 중 오류가 발생하였습니다.");
+  }
 }

@@ -17,7 +17,7 @@
           <label class="w-25 bg-secondary" style="text-align: center"
             >이름</label
           >
-          <label style="text-align: center"> <%= userInfo.username %> </label>
+          <label style="text-align: center"> <%= userInfo.name %> </label>
         </span>
       </div>
       <div class="oreder_useremail">
@@ -25,7 +25,7 @@
           <label class="w-25 bg-secondary" style="text-align: center"
             >이메일</label
           >
-          <label style="text-align: center"> <%= userInfo.useremail %> </label>
+          <label style="text-align: center"> <%= userInfo.email %> </label>
         </span>
       </div>
       <div class="order_userphonenum">
@@ -34,7 +34,7 @@
             >휴대폰 번호</label
           >
           <label style="text-align: center">
-            <%= userInfo.userphonenum %>
+            <%= userInfo.telephone %>
           </label>
         </span>
       </div>
@@ -42,15 +42,8 @@
 
     <section class="border border-1 border-black movie_profile">
       <h2 class="mx-auto p-2" style="width: 200px">예매 정보</h2>
-      <div class="order_id border-top border-1 border-black">
-        <span>
-          <label class="w-25 bg-secondary" style="text-align: center"
-            >예매번호</label
-          >
-          <label style="text-align: center"> <%= orderInfo.order_id %> </label>
-        </span>
-      </div>
-      <div class="title">
+      
+      <div class="title border-top border-1 border-black">
         <span>
           <label style="text-align: center" class="w-25 bg-secondary"
             >제목</label
@@ -72,7 +65,7 @@
             >좌석</label
           >
           <label style="text-align: center">
-            <%= orderInfo.seats_s.join(', ') %>
+            <%= orderInfo.seat_name_list.map((seat) => `${seat.seat_row}${seat.seat_col}`).join(', ') %>
           </label>
         </span>
       </div>
@@ -160,9 +153,9 @@
             />
           </div>
           <button
+            data-m-d="<%= orderInfo.movie_time_id %>"
             class="btn btn-secondary"
-            onclick="submitForm()"
-            type="submit"
+            onclick="submitForm(event)"
           >
             결제하기
           </button>
@@ -184,9 +177,9 @@
           <div class="col">
             <button class="btn btn-secondary">충전하기</button>
             <button
+              data-o-d="<%= orderInfo %>"
               class="btn btn-secondary"
-              onclick="submitForm()"
-              type="submit"
+              onclick="submitForm(event)"
             >
               결제하기
             </button>
@@ -209,9 +202,9 @@
           <div class="col">
             <button class="btn btn-secondary">충전하기</button>
             <button
+              data-o-d="<%= orderInfo %>"
               class="btn btn-secondary"
-              onclick="submitForm()"
-              type="submit"
+              onclick="submitForm(event)"
             >
               결제하기
             </button>
@@ -224,24 +217,6 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
-    <script>
-      function toggleForm(formId) {
-        // 모든 폼 숨기기
-        var forms = document.querySelectorAll("form");
-        forms.forEach((form) => {
-          form.classList.add("visually-hidden");
-        });
-
-        // 선택한 폼 보이기
-        var selectedForm = document.getElementById(formId);
-        selectedForm.classList.remove("visually-hidden");
-      }
-      function submitForm() {
-        setTimeout(function () {
-          window.location.href = "/";
-          // 구매완료 페이지로 넘기기
-        }, 3000);
-      }
-    </script>
+    <script src="/js/payment.js"></script>
   </body>
 </html>

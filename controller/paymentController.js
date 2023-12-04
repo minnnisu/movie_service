@@ -1,13 +1,16 @@
 const HttpError = require("../error/HttpError");
 const paymentService = require("../service/paymentService");
-const userController = require("../controller/userController");
 
 exports.payMovieTicket = async function (req, res, next) {
   const info = { ...req.body, user_id: req.user };
+  console.log(info.movie_time_id);
   try {
     const orderId = await paymentService.payMovieTicket(info);
     req.session.paymentComplete = true;
-    res.redirect(`/payment/complete?order_id=${orderId}`);
+    return res.json({
+      order_id: orderId,
+      message: "Successfully paid ticket!",
+    });
   } catch (error) {
     next(error);
   }
@@ -23,8 +26,6 @@ exports.getPaymentCompletePage = async function (req, res, next) {
       req.query.order_id
     );
 
-    const header = await userController.getHeader();
-
     // 결제가 완료된 경우 세션을 초기화하고 페이지를 표시
     req.session.paymentComplete = false;
     return res
@@ -38,5 +39,40 @@ exports.getPaymentCompletePage = async function (req, res, next) {
     }
 
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));
+  }
+};
+
+exports.getPaymentPage = async function (req, res, next) {
+  try {
+    const data = await paymentService.getPaymentPage(req.user, req.query.data);
+    req.session.selectedSeats = JSON.stringify(data.selectedSeatInfo);
+
+    return res.render("payment", {
+      header: req.headerData,
+      userInfo: data.userInfo,
+      orderInfo: data.orderInfo,
+    });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HttpError) {
+      error.option = { isShowErrPage: true };
+      return next(error);
+    }
+
+    return next(new HttpError(500, "server_error", { isShowErrPage: true }));
+  }
+};
+
+exports.getSelectedSeatInfo = async function (req, res, next) {
+  try {
+    console.log(req.session.selectedSeats);
+    if (req.session.selectedSeats) {
+      const data = { selectedSeats: JSON.parse(req.session.selectedSeats) };
+      req.session.selectedSeats = null;
+      return res.json(data);
+    }
+    return res.json({ selectedSeats: null });
+  } catch (error) {
+    return next(error);
   }
 };

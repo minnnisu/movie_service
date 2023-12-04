@@ -1,5 +1,6 @@
 const movieScheduleModel = require("../model/movieScheduleModel");
 const orderModel = require("../model/orderModel");
+const userModel = require("../model/userModel");
 const orderedSeatModel = require("../model/orderedSeatModel");
 const personTypeModel = require("../model/personTypeModel");
 const commonQuery = require("../model/common");
@@ -152,5 +153,45 @@ exports.getPaymentCompleteInfo = async function (orderId) {
     start_time,
     end_time,
     price,
+  };
+};
+
+exports.getPaymentPage = async function (id, data) {
+  if (data === undefined) {
+    throw new HttpError(400, "not_contain_nessary_body");
+  }
+
+  const user = await userModel.getUser(id);
+  const orderData = JSON.parse(data);
+  const seat_name_list = orderData.snl.map((seat) => ({
+    seat_row: seat.r,
+    seat_col: seat.c,
+  }));
+
+  const { t, a, s } = orderData.pt;
+  const person_type = { teenager: t, adult: a, senior: s };
+  const movieSchedule = await movieScheduleModel.getMovieScheduleByMovieTimeId(
+    orderData.mid
+  );
+
+  return {
+    userInfo: {
+      name: user[0].name,
+      email: user[0].email,
+      telephone: user[0].telephone,
+    },
+    orderInfo: {
+      title: movieSchedule[0].title,
+      room_id: movieSchedule[0].room_id,
+      start_time: movieSchedule[0].start_time,
+      end_time: movieSchedule[0].end_time,
+      seat_name_list,
+      price: orderData.p,
+    },
+    selectedSeatInfo: {
+      movie_time_id: movieSchedule[0].movie_time_id,
+      person_type,
+      seat_name_list,
+    },
   };
 };

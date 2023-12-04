@@ -8,4 +8,11 @@ router.post(
   authMiddleware.isLoginStatusClosure(),
   paymentController.payMovieTicket
 );
+
+router.get(
+  "/selectedSeat",
+  authMiddleware.isLoginStatusClosure(),
+  paymentController.getSelectedSeatInfo
+);
+
 module.exports = router;
