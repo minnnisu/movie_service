@@ -47,17 +47,36 @@ exports.getMovieTicketingPage = async function (req, res, next) {
 
 exports.getMoviePersonSeatPage = async function (req, res, next) {
   try {
-    const seats = await movieService.getMoviePersonSeatByMovieTimeId(
+    // const seats = await movieService.getMoviePersonSeatByMovieTimeId(
+    //   req.query.movie_time_id
+    // );
+
+    const movies = await movieService.getMovieInfoByMovieTimeId(
       req.query.movie_time_id
     );
 
-    return res.render("seats", { header: req.headerData, seats });
+    console.log(movies[0]);
+
+    return res.render("seats", { header: req.headerData, movie: movies[0] });
   } catch (err) {
+    console.log(err);
     if (err instanceof HttpError) {
       err.option = { isShowErrPage: true };
       return next(err);
     }
 
     return next(new HttpError(500, "server_error", { isShowErrPage: true }));
+  }
+};
+
+exports.getMoviePersonSeat = async function (req, res, next) {
+  try {
+    const seats = await movieService.getMoviePersonSeatByMovieTimeId(
+      req.query.movie_time_id
+    );
+
+    return res.json(seats);
+  } catch (error) {
+    next(error);
   }
 };

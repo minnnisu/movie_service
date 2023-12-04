@@ -1,101 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-    <%- include('include/head') %>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <%- include('include/header') %>
-    <div class="seat-wrapper"></div>
-    <div class="">
-      <h2 class="">Your Selection</h2>
-      <div class="">
-        <span class="">Movie:</span>
-        <span class="">The Great Adventure</span>
-      </div>
-      <div class="">
-        <span class="">Seats:</span>
-        <span class="">A1, A3, B2</span>
-      </div>
-      <div class="">
-        <span class="">Total:</span>
-        <span class="">$30</span>
-      </div>
-      <button class="">
-        Confirm Selection
-      </button>
+<html lang="ko">
+<%- include('include/head') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <title>좌석 선택</title>
+</head>
+
+<body>
+  <%- include('include/header') %>
+  <div id="ticket-form">
+    <label for="adults">성인:</label>
+    <input type="number" id="adults" value="0" min="0" />
+
+    <label for="teenagers">청소년:</label>
+    <input type="number" id="teenagers" value="0" min="0" />
+
+    <label for="seniors">노인:</label>
+    <input type="number" id="seniors" value="0" min="0" />
+
+    <button onclick="ApplyNumOfPerson()">적용하기</button>
+  </div>
+
+  <div id="total-display">
+    <h2>총 예매 인원 및 가격</h2>
+    <p id="total-adults">성인: 0명</p>
+    <p id="total-teenagers">청소년: 0명</p>
+    <p id="total-seniors">노인: 0명</p>
+    <p id="total-price">총 가격: 0원</p>
+  </div>
+  <div id="seat-wrapper"></div>
+
+  <div class="custom-card">
+    <h2 class="text-2xl font-bold mb-4">Your Selection</h2>
+
+    <div class="flex items-center justify-between mb-2">
+      <span class="font-medium">Movie:</span>
+      <span class="text-gray-600 dark:text-gray-400"><%= movie.title %></span>
     </div>
-    <script>
-      let test = [];
-      let selectedSeats = new Array();
-      let selectedSeatsMap = [];
-      const seatWrapper = document.querySelector(".seat-wrapper");
-      let clicked = "";
-      let div = "";
-      for (let i = 0; i < 9; i++) {
-        div = document.createElement("div");
-        seatWrapper.append(div);
-        for (let j = 0; j < 12; j++) {
-          const input = document.createElement("input");
-          input.type = "button";
-          input.name = "seats";
-          input.classList = "seat";
-          //3중포문을 사용하지 않기위해
-          mapping(input, i, j);
-          div.append(input);
-          input.addEventListener("click", function (e) {
-            console.log(e.target.value);
-            //중복방지 함수
-            selectedSeats = selectedSeats.filter(
-              (element, index) => selectedSeats.indexOf(element) != index
-            );
 
-            //click class가 존재할때(제거해주는 toggle)
-            if (input.classList.contains("clicked")) {
-              input.classList.remove("clicked");
-              clicked = document.querySelectorAll(".clicked");
-              selectedSeats.splice(selectedSeats.indexOf(e.target.value), 1);
-              clicked.forEach((data) => {
-                selectedSeats.push(data.value);
-              });
-              //click class가 존재하지 않을때 (추가해주는 toggle)
-            } else {
-              input.classList.add("clicked");
-              clicked = document.querySelectorAll(".clicked");
-              clicked.forEach((data) => {
-                selectedSeats.push(data.value);
-              });
-            }
-            console.log(selectedSeats);
-          });
-        }
-      }
+    <div class="flex items-center justify-between mb-2">
+      <span class="font-medium">Seats:</span>
+      <span id="seat-list" class="text-gray-600 dark:text-gray-400"></span>
+    </div>
 
-      function mapping(input, i, j) {
-        if (i === 0) {
-          input.value = "A" + j;
-        } else if (i === 1) {
-          input.value = "B" + j;
-        } else if (i === 2) {
-          input.value = "C" + j;
-        } else if (i === 3) {
-          input.value = "D" + j;
-        } else if (i === 4) {
-          input.value = "E" + j;
-        } else if (i === 5) {
-          input.value = "F" + j;
-        } else if (i === 6) {
-          input.value = "G" + j;
-        } else if (i === 7) {
-          input.value = "H" + j;
-        } else if (i === 8) {
-          input.value = "I" + j;
-        }
-      }
-    </script>
-    
-    <% for (let i = 0; i < seats.length; i++) { %>
-    <span><%= seats[i].seat_row %><%= seats[i].seat_col %></span>
-    <% } %>
-  </body>
+    <div class="flex items-center justify-between mb-4">
+      <span class="font-medium">Total:</span>
+      <span class="text-gray-600 dark:text-gray-400">$30</span>
+    </div>
+
+    <button class="custom-button">Confirm Selection</button>
+  </div>
+  <script src="/js/script.js"></script>
+</body>
+
 </html>

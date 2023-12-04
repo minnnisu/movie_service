@@ -17,13 +17,13 @@ const authApiRouter = require("./api/routes/apis/authRouter");
 const paymentApiRouter = require("./api/routes/apis/paymentRouter");
 const orderApiRouter = require("./api/routes/apis/orderRouter");
 const userApiRouter = require("./api/routes/apis/userRouter");
+const moiveApiRouter = require("./api/routes/apis/moiveRouter");
 
 const userPageRouter = require("./api/routes/pages/userRouter");
 const moviePageRouter = require("./api/routes/pages/movieRouter");
 const indexPageRouter = require("./api/routes/pages/indexRouter");
 const paymentPageRouter = require("./api/routes/pages/paymentRouter");
 const googleAuthPageRouter = require("./api/routes/pages/googleAuthRouter");
-const userController = require("./controller/userController");
 const { getHeaderData } = require("./api/middleware/headerMiddleware");
 
 const app = express();
@@ -68,6 +68,7 @@ app.use("/api/auth", authApiRouter);
 app.use("/api/payment", paymentApiRouter);
 app.use("/api/order", orderApiRouter);
 app.use("/api/user", userApiRouter);
+app.use("/api/movie", moiveApiRouter);
 
 app.use(getHeaderData);
 

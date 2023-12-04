@@ -17,6 +17,12 @@ exports.getMovieInfo = async function (title) {
   return { movie, trailers };
 };
 
+exports.getMovieInfoByMovieTimeId = async function (movieTimeId) {
+  const movie = await movieModel.getMovieByMovieTimeId(movieTimeId);
+
+  return movie;
+};
+
 function getToday_Y_M_D() {
   const today = new Date();
 
