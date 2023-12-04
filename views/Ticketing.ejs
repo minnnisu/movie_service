@@ -1,4 +1,3 @@
-<!-- ticket.ejs -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +39,7 @@
               <ul>
                 <% room.schedules.forEach(schedule=> { %>
                   <li>
-                    <a href="#<%= schedule.movie_time_id %>">
+                    <a href="/movie/ticketing/personSeat?movie_time_id=<%= schedule.movie_time_id %>">
                       <div class="movie_time">
                         <%= schedule.start_time %> ~ <%= schedule.end_time %>
                       </div>
