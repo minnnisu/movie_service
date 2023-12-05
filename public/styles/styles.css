@@ -15,17 +15,19 @@ main {
 
 #ticket-form {
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 0.25rem;
+  margin-bottom: 2rem;
 }
 
 #ticket-form label {
-  margin-right: 8px;
+  display: inline-block;
+  width: 4rem;
+  text-align: center;
 }
 
 #ticket-form input {
   width: 50px;
-  margin-bottom: 8px;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -34,15 +36,27 @@ main {
 #ticket-form button {
   background-color: #4c51bf;
   color: #fff;
-  padding: 10px;
+  padding: 8px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
+.screen {
+  width: 60%;
+  height: 40px;
+  color: #fff;
+  background-color: #606060;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.7rem;
+  margin-bottom: 30px;
+}
+
 .seat {
-  width: 30px;
+  width: 50px;
   height: 30px;
   margin: 5px;
   background-color: #ddd;
@@ -50,6 +64,7 @@ main {
   cursor: pointer;
   border-radius: 5px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e2e2;
 }
 
 .seat.selected {
@@ -65,60 +80,38 @@ main {
 }
 
 .custom-card {
-  grid-column: span 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: white;
   border-radius: 1rem;
-  border-radius: 0.375rem;
-  width: 80%;
+  width: 60%;
+  height: 50px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   background-color: #fff;
 }
+.custom-card .price_wrapper .price_title {
+  display: inline-block;
+  margin-right: 10px;
+  color: #424242;
+}
 
-.custom-card h2 {
+.custom-card .price_wrapper #total-price {
+  display: inline-block;
   font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+  margin-right: 10px;
+  color: #222222;
+  font-weight: 700;
 }
 
-.custom-card .flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.custom-card .font-medium {
-  font-weight: 500;
-}
-
-.custom-card .text-gray-600,
-.custom-card .dark:text-gray-400 {
-  color: #4b5563;
-}
-
-.custom-card button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  outline-offset: 2px;
-  cursor: pointer;
-  background-color: #4c51bf;
+.custom-card .button_wrapper #buybutton {
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  background-color: rgb(255, 152, 170);
   color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  &:hover {
-    background-color: rgba(76, 81, 191, 0.9);
-  }
-  &:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-  &:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
 }
