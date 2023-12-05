@@ -95,6 +95,10 @@ exports.payMovieTicket = async function (info) {
   if (movieSchedule["ordered_seat_count"] >= 100)
     throw new HttpError(400, "seat_count_overflow_error");
 
+  if (seat_name_list.length < 1) {
+    throw new HttpError(400, "no_seat_error");
+  }
+
   if (!checkSeatNameValid(seat_name_list))
     throw new HttpError(400, "not_exist_seat_name_error");
 
