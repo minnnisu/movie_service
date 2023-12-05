@@ -24,14 +24,4 @@ router.get(
   indexController.getSignUpPage
 );
 
-router.get(
-  "/tempPayment",
-  authMiddleware.isLoginStatusClosure({
-    isShowErrPage: true,
-  }),
-  function (req, res) {
-    res.render("temp_payment");
-  }
-);
-
 module.exports = router;
