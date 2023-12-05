@@ -18,7 +18,7 @@ def process_movies_folder_and_insert_to_db(movies_folder_path, db_config):
         print(movie_folder_path)
         
         title = movie_folder
-        if(title == '스노우 폭스-썰매개가 될 거야!'):
+        if(title == '스노우 폭스-썰매개가 될 거야!'):
             title = '스노우 폭스: 썰매개가 될 거야!'
             
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     }
 
     # movies 폴더 경로 설정 (movies 폴더 내에 각각의 영화 폴더들이 있어야 함)
-    movies_folder_path = "/Users/minnnisu/Desktop/영화 데이터"
+    movies_folder_path = "/Users/minnnisu/Desktop/coding/project/movie_service/python/movie_data"
 
     # 함수 호출
     process_movies_folder_and_insert_to_db(movies_folder_path, db_config)
