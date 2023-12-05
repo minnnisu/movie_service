@@ -180,7 +180,6 @@ async function createSeatButtons() {
       const seat = document.createElement("div");
       seat.id = `${String.fromCharCode(64 + j)}-${i}`;
       seat.className = "seat";
-      seat.style.width = "3rem";
 
       seat.seatClass = new Seat(String.fromCharCode(64 + j), i);
       seat.innerHTML = `${String.fromCharCode(64 + j)}-${i}`;
@@ -249,37 +248,29 @@ function ApplyNumOfPerson() {
 
   const { totalAdults, totalTeenagers, totalSeniors, totalPrice } = getPrice();
 
-  // 결과를 화면에 표시
-  document.getElementById("total-adults").innerText =
-    "성인: " + adultsCount + "명";
-  document.getElementById("total-teenagers").innerText =
-    "청소년: " + teenagersCount + "명";
-  document.getElementById("total-seniors").innerText =
-    "노인: " + seniorsCount + "명";
-  document.getElementById("total-price").innerText =
-    "총 가격: " + totalPrice + "원";
+  console.log(totalPrice);
+
+  document.getElementById("total-price").innerText = `${totalPrice}원`;
 }
 
-function isPersonSeatVaild() {
+function checkPersonSeatVaild() {
   const adultsCount = parseInt(document.getElementById("adults").value);
   const teenagersCount = parseInt(document.getElementById("teenagers").value);
   const seniorsCount = parseInt(document.getElementById("seniors").value);
 
   if (adultsCount + teenagersCount + seniorsCount !== selectedSeats.length) {
-    return false;
+    throw new Error("not_vaild_person_seat_error");
   }
 
-  return true;
+  if (adultsCount + teenagersCount + seniorsCount < 1) {
+    throw new Error("no_seat_error");
+  }
 }
 
 function getPaymentData() {
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   const seat_name_list = [];
-
-  if (!isPersonSeatVaild()) {
-    throw new Error("not_vaild_person_seat_error");
-  }
 
   const adult = parseInt(document.getElementById("adults").value);
   const teenager = parseInt(document.getElementById("teenagers").value);
@@ -300,6 +291,8 @@ function getPaymentData() {
 
 function payTicket() {
   try {
+    checkPersonSeatVaild();
+
     const data = getPaymentData();
     const paymentJson = encodeURIComponent(JSON.stringify(data));
 
@@ -307,6 +300,10 @@ function payTicket() {
   } catch (error) {
     if (error.message === "not_vaild_person_seat_error") {
       return alert("인원 수와 선택한 좌석의 수가 다릅니다.");
+    }
+
+    if (error.message === "no_seat_error") {
+      return alert("인원 수는 0명 이상이여야합니다.");
     }
 
     return alert("결제 중 오류가 발생하였습니다.");
