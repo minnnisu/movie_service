@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles/shared.css" />
+  <link rel="stylesheet" href="/styles/my_page.css" />
+  <link rel="stylesheet" href="/styles/my_page_shared.css" />
+  <link rel="stylesheet" href="/styles/user_update.css" />
+
+  <title>My Page</title>
+</head>
+
+<body>
+  <%- include('include/header') %>
+  <main>
+    <div class="info_container">
+      <ul class="nav">
+        <li class="nav_button select"><a href="profile">나의 정보</a></li>
+        <li class="nav_button"><a href="orderList">예매 내역</a></li>
+      </ul>
+      <div class="content">
+        <div id="My_Information">
+          <div class="header">회원정보</div>
+          <div class="data">
+            <span class="key">이름</span>
+            <input class="value" id="nameInput" value="<%= user.name %>" />
+          </div>
+          <div class="data">
+            <span class="key">이메일</span>
+            <input class="value" id="emailInput" value="<%= user.email %>" />
+          </div>
+          <div class="data">
+            <span class="key">전화번호</span>
+            <input class="value" id="telephoneInput" value="<%= user.telephone %>" />
+          </div>
+          <div class="footer">
+            <div class="user_modify_btn_wrapper">
+              <a class="btn" href="#" id="modifyBtn">정보수정</a>
+            </div>
+          </div>
+        </div>
+        <div id="latest_orders">
+          <div class="header">최근 예매내역</div>
+          <div class="order_list">
+            <% for (let i = 0; i < orderList.length; i++) { %>
+            <div class="order_item">
+              <div class="poster_wrapper">
+                <img class="poster" src="<%= orderList[i].poster_image %>" alt="포스터" />
+              </div>
+              <div class="order_info">
+                <div class="movie_title_wrapper">
+                  <% if (orderList[i].age_limit === 'ALL') { %>
+                  <img class="grade_img" src="/images/grade_ALL.png" alt="grade all">
+                  <% } else if (orderList[i].age_limit === '12') { %>
+                  <img class="grade_img" src="/images/grade_12.png" alt="grade 12">
+                  <% } else if (orderList[i].age_limit === '15') { %>
+                  <img class="grade_img" src="/images/grade_15.png" alt="grade 15">
+                  <% } else if (orderList[i].age_limit === '18') { %>
+                  <img class="grade_img" src="/images/grade_18.png" alt="grade 18">
+                  <% } %>
+                  <a class="movie-title" href="/movie/movieDetail/<%= orderList[i].title %>"><%= orderList[i].title %></a>
+                </div>
+                <div class="movie_time">
+                  <%= orderList[i].start_time %> ~ <%=orderList[i].end_time %>
+                </div>
+                <div class="movie_room"><%= orderList[i].room_id %>관</div>
+                <div class="movie_seat"><%= orderList[i].seats %></div>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+  </main>
+  <script>
+    document.getElementById('modifyBtn').addEventListener('click', async function() {
+      // 사용자 입력 값을 가져옴
+      const name = document.getElementById('nameInput').value;
+      const email = document.getElementById('emailInput').value;
+      const telephone = document.getElementById('telephoneInput').value;
+
+      // 전송할 데이터 준비
+      const userData = {
+        name: name,
+        email: email,
+        telephone: telephone
+      };
+
+      try {
+        // 데이터를 서버에 전송하기 위한 fetch 요청
+        const response = await fetch('http://localhost:8080/api/user/', {
+          method: 'PATCH', // API에 따라 메소드를 조절하세요
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        // 서버로부터의 응답을 JSON으로 파싱
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (data.message === "not_valid_name_error") {
+            return alert("유효하지않는 이름입니다.");
+          }
+
+          if (data.message === "not_match_email_condition_error") {
+            return alert("유효하지않는 이메일 주소입니다.");
+          }
+
+          if (data.message === "not_match_telephone_condition_error") {
+            return alert("유효하지않는 전화번호입니다.");
+          }
+        }
+
+        // 필요하다면 서버로부터의 응답을 처리하세요
+        alert("회원정보가 수정되었습니다.")
+        return window.location.href = "/user/profile";
+      } catch (error) {
+        // 오류 처리
+        console.error('에러:', error);
+      }
+    });
+  </script>
+</body>
+
+</html>

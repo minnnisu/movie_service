@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영화 티켓 예약</title>
+  <!-- 필요한 경우 추가적인 스타일이나 스크립트를 포함하세요. -->
+</head>
+
+<body>
+  <button onclick="sendOrderData()">예매</button>
+
+  <script>
+    // 비동기 요청을 수행하는 함수
+    async function sendOrderData() {
+      // 예약 데이터 가져오기
+      var data = {
+        "movie_time_id": 60,
+        "seat_name_list": [{
+            "seat_row": "D",
+            "seat_col": 4
+          },
+          {
+            "seat_row": "D",
+            "seat_col": 5
+          },
+          {
+            "seat_row": "D",
+            "seat_col": 6
+          }
+        ],
+        "person_type": {
+          "teenager": 0,
+          "adult": 2,
+          "senior": 1
+        }
+      };
+
+      try {
+        const response = await fetch('http://localhost:8080/api/payment/ticket', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          return alert(error.message)
+        }
+
+        alert('예약이 성공적으로 완료되었습니다.');
+      } catch (error) {
+        alert(error.message)
+      }
+
+
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: #f8f7f7;
+}
+
+header {
+  display: flex;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  border-bottom: 0.5px solid #b2b2b2;
+}
+
+#page-logo img {
+  width: 100px;
+}
+
+header a {
+  color: rgb(35, 35, 35);
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+}
+
+header li {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+header nav a:hover {
+  color: rgb(77, 77, 77);
+}

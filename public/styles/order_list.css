@@ -1,0 +1,87 @@
+.content {
+  border-radius: 10px 10px 10px 10px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+.info_container {
+  width: 100%;
+}
+
+.order_list {
+  background-color: #f8f7f7;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  height: 650px;
+  overflow: scroll;
+}
+
+.order_item {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.order_item .order_num_container {
+  flex-basis: 100px;
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.order_item .order_num_container .order_num_header {
+  font-weight: 700;
+}
+
+.order_item .order_num_wrapper > * {
+  height: 20px;
+}
+
+.order_item .poster_image {
+  width: 150px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+.movie_title_wrapper {
+  margin-bottom: 15px;
+}
+
+.movie_title_wrapper .movie-title {
+  font-size: 1.1rem;
+}
+
+.order_item .data {
+  margin-bottom: 8px;
+}
+
+.order_item .key {
+  width: 4rem;
+  display: inline-block;
+  color: #878787;
+  font-weight: 700;
+}
+
+.order_item .footer {
+  margin-top: 15px;
+}
+
+.user_modify_btn_wrapper .btn {
+  padding: 7px 15px;
+}
+.user_modify_btn_wrapper .btn.btn_gray {
+  background-color: rgb(158, 158, 158);
+  cursor: default;
+}

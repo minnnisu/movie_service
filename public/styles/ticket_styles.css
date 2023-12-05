@@ -1,0 +1,178 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.showtimes {
+    max-width: 50rem;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 1.25rem;
+    margin-top: 8rem;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+.sect-schedule {
+    text-align: center;
+}
+
+.slider {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item-wrap {
+    transition: transform 0.5s ease;
+}
+
+.item {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.item li {
+    display: inline-block;
+    margin-right: 0.938rem;
+}
+
+.item li a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 0.625rem;
+    background-color: #ddd;
+    border-radius: 0.313rem;
+}
+
+.item li.on a {
+    background-color: #a4ccef;
+    color: #fff;
+}
+
+.sect-showtimes ul {
+    padding: 0;
+    list-style: none;
+}
+
+.col-times {
+    margin-bottom: 1.25rem;
+}
+
+.info-movie {
+    background-color: #eee;
+    padding: 0.625rem;
+    border-radius: 0.313rem;
+}
+
+.ageAll, .age12, .age15, .age18 {
+    padding: 0.313rem;
+    border-radius: 0.188rem;
+    color: #fff;
+}
+
+.ageAll {
+    background-color: rgb(38, 156, 86);
+}
+
+.age12 {
+    background-color: rgb(233, 182, 47);
+}
+
+.age15 {
+    background-color: rgb(221, 116, 47);
+}
+
+.age18 {
+    background-color: rgb(217, 44, 54);
+}
+
+.type-hall {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.625rem;
+}
+
+.info-hall ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.info-timetable ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-hall li {
+    margin-bottom: 0.313rem;
+}
+
+.info-timetable li {
+    margin-right: 0.3rem;
+    margin-bottom: 0.313rem;
+    border: 1px solid #000000;
+    padding: 0.313rem;
+}
+
+.info-timetable em {
+    font-weight: bold;
+}
+
+.info-timetable li a {
+    text-decoration-line: none;
+}
+
+.midnight {
+    display: block;
+    margin-top: 0.313rem;
+}
+
+.txt-lightblue {
+    color: #5bc0de;
+}
+
+.hidden {
+    display: none;
+}
+
+.day a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 0.625rem 0.938rem;
+    background-color: #ddd;
+    border-radius: 0.313rem;
+}
+
+.day a.selected {
+    background-color: rgb(255, 251, 0);
+    color: #fff;
+}
+
+.month, .date, .day-of-week {
+    display: block;
+    text-align: center;
+}
+
+.month {
+    font-size: 0.875rem;
+    color: #333;
+}
+
+.date {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #428bca;
+}
+
+.day-of-week {
+    font-size: 0.75rem;
+    color: #333;
+}
