@@ -34,10 +34,9 @@ async function signup(body) {
   const id = body.id.trim();
   const password = body.password.trim();
   const checkedPassword = body.checkedPassword.trim();
-  console.log(password);
 
   if (id === "") {
-    throw new HttpError(400, "not_vaild_id_error");
+    throw new HttpError(409, "id_duplication_error");
   }
 
   if (await userModel.checkIdDuplication(id))
