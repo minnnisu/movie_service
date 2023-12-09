@@ -81,7 +81,7 @@ async function checkId(id) {
 
   console.log(id.trim());
   if (id.trim() === "") {
-    throw new HttpError(400, "not_vaild_id_error");
+    throw new HttpError(409, "id_duplication_error");
   }
 
   if (await userModel.checkIdDuplication(id.trim())) {
