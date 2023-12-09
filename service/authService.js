@@ -29,11 +29,10 @@ async function signup(body) {
     throw new HttpError(400, "not_contain_nessary_body");
   }
 
-  const { name, email, telephone } = body;
-
   const id = body.id.trim();
   const password = body.password.trim();
   const checkedPassword = body.checkedPassword.trim();
+  const { name, email, telephone } = body;
 
   if (id === "") {
     throw new HttpError(409, "id_duplication_error");
