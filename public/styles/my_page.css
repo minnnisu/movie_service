@@ -89,6 +89,13 @@
   border-radius: 10px;
 }
 
+.movie_title_wrapper .movie-title {
+  white-space: nowrap; /* 글자를 여러 줄로 강제로 바꾸지 않음 */
+  overflow: hidden; /* 넘친 부분을 숨김 */
+  text-overflow: ellipsis; /* 넘친 부분에 "..."을 표시 */
+  max-width: calc(12rem - 27px);
+}
+
 .order_item .order_info .movie_time,
 .order_item .order_info .movie_room,
 .order_item .order_info .movie_seat {

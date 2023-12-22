@@ -55,6 +55,10 @@ main {
   margin-right: 20px;
 }
 
+.order_item .order_info {
+  flex-grow: 1;
+}
+
 .movie_title_wrapper {
   margin-bottom: 15px;
 }
